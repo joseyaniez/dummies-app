@@ -1,0 +1,23 @@
+package layouts
+
+templ AdminLayout(title string) {
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    if title == "" {
+      <title>{title}</title>
+    } else {
+      <title>Dummies App</title>
+    }
+
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <main>
+      { children... }
+    </main>
+  </body>
+  </html>
+}

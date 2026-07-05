@@ -10,6 +10,9 @@ import (
 func main() {
 	r := chi.NewRouter()
 
+	fs := http.FileServer(http.Dir("./web/static"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fs))
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello, World!"))
 	})

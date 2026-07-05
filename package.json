@@ -1,0 +1,23 @@
+{
+  "name": "dummies-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:css": "npx @tailwindcss/cli -i ./web/static/css/app.css -o ./web/static/css/output.css --watch",
+    "build:css": "npx @tailwindcss/cli -i ./web/static/css/app.css -o ./web/static/css/output.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-nueva:joseyaniez/dummies-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.2",
+    "tailwindcss": "^4.3.2"
+  }
+}

@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "Fredoka";
+  src: url("/static/fonts/Fredoka-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-stretch: 75% 125%; /* por wdth */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Playpen Sans";
+  src: url("/static/fonts/PlaypenSans-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

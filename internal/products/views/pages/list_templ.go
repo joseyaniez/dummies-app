@@ -43,7 +43,7 @@ func ListProductsPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1>Lista de productos</h1>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1 class=\"text-2xl font-bold my-4\">Lista de productos</h1><div class=\"flex justify-end my-4\"><a href=\"/admin/products/create\" class=\"bg-bluemmy-500 hover:bg-bluemy-700 text-white font-bold py-1 px-2 rounded\">Nuevo producto</a></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

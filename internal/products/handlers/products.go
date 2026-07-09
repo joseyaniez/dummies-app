@@ -15,3 +15,7 @@ func NewProductHandler() *ProductHandler {
 func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	pages.ListProductsPage().Render(r.Context(), w)
 }
+
+func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
+	pages.CreateProductPage().Render(r.Context(), w)
+}

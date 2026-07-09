@@ -1,0 +1,52 @@
+package form
+
+templ ImageForm() {
+
+  <div x-data="uploadComponent()" class="my-4">
+    <label for="input-files">
+      <input @change="addFiles($event)" type="file" id="input-files" name="files" multiple hidden />
+      <div id="viewer" class="w-full min-h-40 flex justify-center items-center flex-wrap p-4 border-dashed border-2 border-gray-400 rounded text-center">
+        <template x-if="files.length == 0">
+          <span class="text-gray-500">
+            Arrastra tus archivos aquí o haz click para seleccionar
+          </span>
+        </template>
+        <template x-for="(file, index) in files">
+          <div class="w-20 h-20 m-1 relative">
+            <img :src="URL.createObjectURL(file)" class="w-full h-full object-cover rounded" />
+            <button type="button" @click="removeFile(index)" class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition-colors">
+              X
+            </button>
+          </div>
+        </template>
+      </div>
+    </label>
+  </div>
+
+  <script>
+    function uploadComponent(){
+      return {
+        files: [],
+        addFiles(event){
+          const newFiles = Array.from(event.target.files);
+          this.files.push(...newFiles);
+          this.syncInputFiles(event.target);
+        },
+        removeFile(index){
+          this.files.splice(index, 1);
+          this.syncInputFiles(document.getElementById('input-files'));
+        },
+        syncInputFiles(input) {
+          const dataTransfer = new DataTransfer();
+
+          this.files.forEach(file => {
+            dataTransfer.items.add(file);
+          });
+
+          input.files = dataTransfer.files;
+        }
+      }
+    }
+  </script>
+}
+

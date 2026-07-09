@@ -8,14 +8,15 @@ templ AdminLayout(title string) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
     if title == "" {
-      <title>{title}</title>
-    } else {
       <title>Dummies App</title>
+    } else {
+      <title>{ title }</title>
     }
     <link rel="stylesheet" href="/static/css/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
-  <body>
-    <main class="p-2 w-full lg:w-3/4 lg:mx-auto">
+  <body hx-boost="true" class="bg-gray-100">
+    <main class="p-4 w-full lg:w-3/4 lg:mx-auto">
       { children... }
     </main>
   </body>

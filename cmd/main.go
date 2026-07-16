@@ -20,7 +20,8 @@ func main() {
 	productHandler := handlers.NewProductHandler()
 
 	r.Get("/admin/products/create", productHandler.CreateProduct)
-	r.Get("/admin/products/", productHandler.GetProducts)
+	r.Get("/admin/products", productHandler.GetProducts)
+	r.Post("/admin/products", productHandler.SaveProduct)
 
 	http.ListenAndServe(":8080", r)
 }

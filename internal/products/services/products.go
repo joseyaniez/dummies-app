@@ -1,11 +1,19 @@
 package services
 
-import "strconv"
+import (
+	"strconv"
 
-type ProductService struct{}
+	"github.com/joseyanez/dummies-app/internal/products/repositories"
+)
 
-func NewProductService() *ProductService {
-	return &ProductService{}
+type ProductService struct {
+	productRepository *repositories.ProductRepository
+}
+
+func NewProductService(productRepository *repositories.ProductRepository) *ProductService {
+	return &ProductService{
+		productRepository: productRepository,
+	}
 }
 
 func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[string]string, error) {
@@ -24,6 +32,6 @@ func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[s
 	}
 
 	// Aquí iría la lógica para guardar el producto en la base de datos
-
-	return nil, nil
+	err = s.productRepository.SaveProduct(productRequest.Title, productRequest.Description, price)
+	return nil, err
 }

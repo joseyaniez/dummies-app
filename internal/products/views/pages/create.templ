@@ -17,6 +17,12 @@ templ CreateProductPage(productRequest services.ProductCreateRequest, errors map
         </div>
       }
 
+      if errors["image_form"] != "" {
+        <div class="p-4 my-4 text-md bg-red-100 rounded-md border border-md border-red-500 text-red-700">
+          { errors["image_form"] }
+        </div>
+      }
+
       <div class="mb-6 flex flex-col gap-1">
         <label for="#in_title" class="font-bold">Título</label>
         <input 

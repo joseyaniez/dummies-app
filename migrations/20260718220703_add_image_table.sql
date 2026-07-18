@@ -1,0 +1,14 @@
+-- +goose Up
+CREATE TABLE IF NOT EXISTS images (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id)
+      REFERENCES product (id)
+      ON DELETE CASCADE
+);
+
+-- +goose Down
+DROP TABLE IF EXISTS images;

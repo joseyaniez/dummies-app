@@ -2,6 +2,7 @@ package storage
 
 import (
 	"io"
+	"log"
 	"mime/multipart"
 	"os"
 	"path/filepath"
@@ -18,6 +19,7 @@ func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
 	for _, image := range images {
 		src, err := image.Open()
 		if err != nil {
+			log.Println("Failed to open image: " + err.Error())
 			errors = append(errors, "Failed to open image: "+image.Filename)
 			src.Close()
 			continue
@@ -34,6 +36,7 @@ func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
 			// Create a destination file
 			dst, err := os.Create(dstPath)
 			if err != nil {
+				log.Println("Failed to create destination file: " + err.Error())
 				errors = append(errors, "Failed to create destination file: "+filename)
 				return
 			}
@@ -42,6 +45,7 @@ func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
 			// Copy the uploaded image to the destination file
 			_, err = io.Copy(dst, src)
 			if err != nil {
+				log.Println("Failed to copy image in destination: " + err.Error())
 				errors = append(errors, "Failed to save image: "+filename)
 				return
 			}

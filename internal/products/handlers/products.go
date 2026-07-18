@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"maps"
 	"net/http"
 
@@ -30,12 +29,7 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 
 func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 	errors := make(map[string]string)
-	productRequest := services.ProductCreateRequest{
-		Title:       r.FormValue("title"),
-		Description: r.FormValue("description"),
-		Price:       r.FormValue("price"),
-		Images:      []string{}, // Se asignará después de procesar las imágenes
-	}
+	productRequest := services.ProductCreateRequest{}
 
 	err := r.ParseMultipartForm(10 << 20) // 10 MB
 	if err != nil {
@@ -43,6 +37,11 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
 		return
 	}
+
+	productRequest.Title = r.FormValue("title")
+	productRequest.Description = r.FormValue("description")
+	productRequest.Price = r.FormValue("price")
+	productRequest.Images = r.MultipartForm.File["files"]
 
 	maperrors, err := h.productService.SaveProduct(productRequest)
 	if err != nil {
@@ -57,14 +56,6 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
 		return
 	}
-
-	images := r.MultipartForm.File["files"]
-
-	for _, image := range images {
-		fmt.Printf("Received file: %s\n", image.Filename)
-	}
-
-	// Aquí iría la lógica para guardar el producto en la base de datos y manejar las imágenes
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }

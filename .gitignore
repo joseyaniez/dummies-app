@@ -23,5 +23,7 @@ node_modules/
 .vscode/
 .idea/
 
+data/app.db
+
 # OS
 .DS_Store

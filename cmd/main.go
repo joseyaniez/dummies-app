@@ -16,21 +16,6 @@ func main() {
 	}
 	defer db.Close()
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS users (
-			id INTEGER PRIMARY KEY,
-			name TEXT
-		)
-	`)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	log.Println("Database connection established successfully.")
 
 	r := chi.NewRouter()

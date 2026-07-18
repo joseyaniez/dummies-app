@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/joseyanez/dummies-app/internal/products/views/pages"
 )
@@ -34,11 +35,16 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 
 	values["title"] = r.FormValue("title")
 	values["description"] = r.FormValue("description")
-	values["price"] = r.FormValue("price")
 
 	if values["title"] == "" {
 		errors["title"] = "Debes colocar un título"
 	}
+
+	price, err := strconv.ParseFloat(r.FormValue("price"), 64)
+	if err != nil || price <= 0 {
+		errors["price"] = "Debes colocar un precio válido"
+	}
+	values["price"] = r.FormValue("price")
 
 	images := r.MultipartForm.File["files"]
 
@@ -51,7 +57,7 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Received file: %s\n", image.Filename)
 	}
 
-	fmt.Printf("Product saved successfully: %s - %s", values["title"], values["description"])
+	// Aquí iría la lógica para guardar el producto en la base de datos y manejar las imágenes
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }

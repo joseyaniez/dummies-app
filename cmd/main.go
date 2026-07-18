@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/joseyanez/dummies-app/internal/database"
 	"github.com/joseyanez/dummies-app/internal/products/handlers"
+	"github.com/joseyanez/dummies-app/internal/products/services"
 )
 
 func main() {
@@ -27,7 +28,8 @@ func main() {
 		w.Write([]byte("Hello, World!"))
 	})
 
-	productHandler := handlers.NewProductHandler()
+	productService := services.NewProductService()
+	productHandler := handlers.NewProductHandler(productService)
 
 	r.Get("/admin/products/create", productHandler.CreateProduct)
 	r.Get("/admin/products", productHandler.GetProducts)

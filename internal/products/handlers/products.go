@@ -2,16 +2,21 @@ package handlers
 
 import (
 	"fmt"
+	"maps"
 	"net/http"
-	"strconv"
 
+	"github.com/joseyanez/dummies-app/internal/products/services"
 	"github.com/joseyanez/dummies-app/internal/products/views/pages"
 )
 
-type ProductHandler struct{}
+type ProductHandler struct {
+	productService *services.ProductService
+}
 
-func NewProductHandler() *ProductHandler {
-	return &ProductHandler{}
+func NewProductHandler(productService *services.ProductService) *ProductHandler {
+	return &ProductHandler{
+		productService: productService,
+	}
 }
 
 func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
@@ -19,39 +24,41 @@ func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
-	pages.CreateProductPage(nil, nil).Render(r.Context(), w)
+	productRequest := services.ProductCreateRequest{}
+	pages.CreateProductPage(productRequest, nil).Render(r.Context(), w)
 }
 
 func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
-	values := make(map[string]string)
 	errors := make(map[string]string)
+	productRequest := services.ProductCreateRequest{
+		Title:       r.FormValue("title"),
+		Description: r.FormValue("description"),
+		Price:       r.FormValue("price"),
+		Images:      []string{}, // Se asignará después de procesar las imágenes
+	}
 
 	err := r.ParseMultipartForm(10 << 20) // 10 MB
 	if err != nil {
 		errors["form"] = "Error interno al enviar el formulario, intende de nuevo más tarde"
-		pages.CreateProductPage(values, errors).Render(r.Context(), w)
+		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
 		return
 	}
 
-	values["title"] = r.FormValue("title")
-	values["description"] = r.FormValue("description")
-
-	if values["title"] == "" {
-		errors["title"] = "Debes colocar un título"
+	maperrors, err := h.productService.SaveProduct(productRequest)
+	if err != nil {
+		errors["form"] = "Error interno al guardar el producto, intente de nuevo más tarde"
+		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
+		return
 	}
 
-	price, err := strconv.ParseFloat(r.FormValue("price"), 64)
-	if err != nil || price <= 0 {
-		errors["price"] = "Debes colocar un precio válido"
-	}
-	values["price"] = r.FormValue("price")
-
-	images := r.MultipartForm.File["files"]
+	maps.Copy(errors, maperrors)
 
 	if len(errors) > 0 {
-		pages.CreateProductPage(values, errors).Render(r.Context(), w)
+		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
 		return
 	}
+
+	images := r.MultipartForm.File["files"]
 
 	for _, image := range images {
 		fmt.Printf("Received file: %s\n", image.Filename)

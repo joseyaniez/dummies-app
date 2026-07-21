@@ -1,8 +1,9 @@
 package pages
 
 import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
+import "github.com/joseyanez/dummies-app/internal/products/models"
 
-templ ListProductsPage() {
+templ ListProductsPage(products []*models.Product) {
   @layouts.AdminLayout("Mis productos"){
     <h1 class="text-3xl font-bold mt-4 mb-6">Lista de productos</h1>
     <div class="flex justify-end my-4">
@@ -12,5 +13,12 @@ templ ListProductsPage() {
         Nuevo producto
       </a>
     </div>
+    if products != nil {
+      <div>
+        for _, prod := range products {
+          <li>Producto: {prod.Title}</li>
+        }
+      </div>
+    }
   }
 }

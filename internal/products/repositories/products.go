@@ -2,7 +2,10 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
+
+	"github.com/joseyanez/dummies-app/internal/products/models"
 )
 
 type ProductRepository struct {
@@ -11,6 +14,39 @@ type ProductRepository struct {
 
 func NewProductRepository(db *sql.DB) *ProductRepository {
 	return &ProductRepository{DB: db}
+}
+
+func (r *ProductRepository) GetProducts() ([]*models.Product, error) {
+	query := `
+		SELECT id, title, description, price, available FROM products
+	`
+	rows, err := r.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []*models.Product
+	for rows.Next() {
+		var prod models.Product
+		err = rows.Scan(
+			&prod.Id,
+			&prod.Title,
+			&prod.Description,
+			&prod.Price,
+			&prod.Available,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("Error scanning product: %w", err)
+		}
+		products = append(products, &prod)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("Error iterating scanning products: %w", err)
+	}
+
+	return products, nil
 }
 
 func (r *ProductRepository) SaveProduct(title, description string, price float64) (int, error) {

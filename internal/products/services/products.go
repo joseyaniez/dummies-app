@@ -5,6 +5,7 @@ import (
 	"log"
 	"strconv"
 
+	"github.com/joseyanez/dummies-app/internal/products/models"
 	"github.com/joseyanez/dummies-app/internal/products/repositories"
 	"github.com/joseyanez/dummies-app/internal/storage"
 )
@@ -17,6 +18,14 @@ func NewProductService(productRepository *repositories.ProductRepository) *Produ
 	return &ProductService{
 		productRepository: productRepository,
 	}
+}
+
+func (s *ProductService) GetProducts() ([]*models.Product, error) {
+	products, err := s.productRepository.GetProducts()
+	if err != nil {
+		return nil, err
+	}
+	return products, nil
 }
 
 func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[string]string, error) {

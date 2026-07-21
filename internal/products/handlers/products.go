@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/joseyanez/dummies-app/internal/products/services"
@@ -18,7 +19,13 @@ func NewProductHandler(productService *services.ProductService) *ProductHandler 
 }
 
 func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
-	pages.ListProductsPage().Render(r.Context(), w)
+	products, err := h.productService.GetProducts()
+	if err != nil {
+		log.Println("Error obtain products: " + err.Error())
+		pages.ListProductsPage(nil).Render(r.Context(), w)
+		return
+	}
+	pages.ListProductsPage(products).Render(r.Context(), w)
 }
 
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"log"
 	"strconv"
 
@@ -19,42 +20,41 @@ func NewProductService(productRepository *repositories.ProductRepository) *Produ
 }
 
 func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[string]string, error) {
-	errors := make(map[string]string)
+	validationErrors := make(map[string]string)
 	if productRequest.Title == "" {
-		errors["title"] = "Debes colocar un título"
+		validationErrors["title"] = "Debes colocar un título"
 	}
 
 	price, err := strconv.ParseFloat(productRequest.Price, 64)
 	if err != nil || price <= 0 {
-		errors["price"] = "Debes colocar un precio válido"
+		validationErrors["price"] = "Debes colocar un precio válido"
 	}
 
-	if len(errors) > 0 {
-		return errors, nil
+	if len(validationErrors) > 0 {
+		return validationErrors, nil
 	}
 
 	// Aquí iría la lógica para guardar el producto en la base de datos
 	productId, err := s.productRepository.SaveProduct(productRequest.Title, productRequest.Description, price)
-
-	filenames, errorsMap, err := storage.SaveImages(productRequest.Images)
 	if err != nil {
-		log.Println("Error for save images: " + err.Error())
-		errors["image_form"] = "Error al guardar imágenes"
-		return errors, nil
+		log.Println("Error saving product in repository: " + err.Error())
+		return nil, err
 	}
 
-	if len(errorsMap) > 0 {
-		for _, errMap := range errorsMap {
-			errors["image_form"] = errors["image_form"] + "; " + errMap
+	filenames, errorsStr := storage.SaveImages(productRequest.Images)
+
+	if len(errorsStr) > 0 {
+		error := ""
+		for _, err := range errorsStr {
+			error = error + err
 		}
-		return errors, nil
+		return nil, errors.New(error)
 	}
 
 	err = s.productRepository.SaveProductImageFilenames(productId, filenames)
 	if err != nil {
-		log.Println("Error in SaveProductImageFilenames: " + err.Error())
-		errors["image_form"] = errors["image_form"] + "; " + "Error al guadar ruta de imágenes"
+		return nil, err
 	}
 
-	return errors, nil
+	return nil, nil
 }

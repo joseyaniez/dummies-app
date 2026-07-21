@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"maps"
 	"net/http"
 
 	"github.com/joseyanez/dummies-app/internal/products/services"
@@ -28,32 +27,29 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
-	errors := make(map[string]string)
-	productRequest := services.ProductCreateRequest{}
-
 	err := r.ParseMultipartForm(10 << 20) // 10 MB
 	if err != nil {
-		errors["form"] = "Error interno al enviar el formulario, intende de nuevo más tarde"
-		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
+		errorForm := map[string]string{"form": "Error interno al enviar el formulario, intente de nuevo más tarde"}
+		pages.CreateProductPage(services.ProductCreateRequest{}, errorForm).Render(r.Context(), w)
 		return
 	}
 
-	productRequest.Title = r.FormValue("title")
-	productRequest.Description = r.FormValue("description")
-	productRequest.Price = r.FormValue("price")
-	productRequest.Images = r.MultipartForm.File["files"]
+	productRequest := services.ProductCreateRequest{
+		Title:       r.FormValue("title"),
+		Description: r.FormValue("description"),
+		Price:       r.FormValue("price"),
+		Images:      r.MultipartForm.File["files"],
+	}
 
-	maperrors, err := h.productService.SaveProduct(productRequest)
+	validationErrors, err := h.productService.SaveProduct(productRequest)
 	if err != nil {
-		errors["form"] = "Error interno al guardar el producto, intente de nuevo más tarde"
-		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
+		errorForm := map[string]string{"form": "No se pudo guardar el producto, intente de nuevo más tarde"}
+		pages.CreateProductPage(productRequest, errorForm).Render(r.Context(), w)
 		return
 	}
 
-	maps.Copy(errors, maperrors)
-
-	if len(errors) > 0 {
-		pages.CreateProductPage(productRequest, errors).Render(r.Context(), w)
+	if len(validationErrors) > 0 {
+		pages.CreateProductPage(productRequest, validationErrors).Render(r.Context(), w)
 		return
 	}
 

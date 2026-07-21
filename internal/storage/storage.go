@@ -10,10 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
-	var filenames []string
-	var errors []string
-
+func SaveImages(images []*multipart.FileHeader) (filenames, errors []string) {
 	uploadDir := "web/static/images/"
 
 	for _, image := range images {
@@ -21,7 +18,6 @@ func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
 		if err != nil {
 			log.Println("Failed to open image: " + err.Error())
 			errors = append(errors, "Failed to open image: "+image.Filename)
-			src.Close()
 			continue
 		}
 
@@ -53,5 +49,5 @@ func SaveImages(images []*multipart.FileHeader) ([]string, []string, error) {
 			filenames = append(filenames, filename)
 		}()
 	}
-	return filenames, errors, nil
+	return
 }

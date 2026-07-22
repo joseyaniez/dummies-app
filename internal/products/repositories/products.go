@@ -18,7 +18,10 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 
 func (r *ProductRepository) GetProducts() ([]*models.Product, error) {
 	query := `
-		SELECT id, title, description, price, available FROM products
+		SELECT products.id, title, description, price, available, images.filename AS filename 
+		FROM products 
+		LEFT JOIN images 
+	  	ON images.product_id = products.id
 	`
 	rows, err := r.DB.Query(query)
 	if err != nil {
@@ -29,17 +32,38 @@ func (r *ProductRepository) GetProducts() ([]*models.Product, error) {
 	var products []*models.Product
 	for rows.Next() {
 		var prod models.Product
+		var filenameSql sql.NullString
+		var filename string
 		err = rows.Scan(
 			&prod.Id,
 			&prod.Title,
 			&prod.Description,
 			&prod.Price,
 			&prod.Available,
+			&filenameSql,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("Error scanning product: %w", err)
 		}
-		products = append(products, &prod)
+
+		if filenameSql.Valid {
+			filename = filenameSql.String
+		}
+
+		var exists bool = false
+		for _, p := range products {
+			if p.Id == prod.Id {
+				exists = true
+			}
+		}
+		if exists && filename != "" {
+			products[len(products)-1].Images = append(products[len(products)-1].Images, filename)
+		} else {
+			if filename != "" {
+				prod.Images = append(prod.Images, filename)
+			}
+			products = append(products, &prod)
+		}
 	}
 
 	if err := rows.Err(); err != nil {

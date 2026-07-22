@@ -28,6 +28,14 @@ func (s *ProductService) GetProducts() ([]*models.Product, error) {
 	return products, nil
 }
 
+func (s *ProductService) GetProduct(id string) (*models.Product, error) {
+	product, err := s.productRepository.FindProduct(id)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
+}
+
 func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[string]string, error) {
 	validationErrors := make(map[string]string)
 	if productRequest.Title == "" {

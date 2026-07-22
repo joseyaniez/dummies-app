@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/joseyanez/dummies-app/internal/products/services"
 	"github.com/joseyanez/dummies-app/internal/products/views/pages"
 )
@@ -26,6 +27,18 @@ func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	pages.ListProductsPage(products).Render(r.Context(), w)
+}
+
+func (h *ProductHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
+	// obtener el producto con el id
+	id := chi.URLParam(r, "id")
+	prod, err := h.productService.GetProduct(id)
+	if err != nil {
+		log.Println(err)
+		pages.ViewProductPage(nil).Render(r.Context(), w)
+		return
+	}
+	pages.ViewProductPage(prod).Render(r.Context(), w)
 }
 
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {

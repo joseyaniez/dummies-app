@@ -2,11 +2,14 @@ package repositories
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/joseyanez/dummies-app/internal/products/models"
 )
+
+var ErrProductNotFound = errors.New("No se encontró el producto")
 
 type ProductRepository struct {
 	DB *sql.DB
@@ -14,6 +17,55 @@ type ProductRepository struct {
 
 func NewProductRepository(db *sql.DB) *ProductRepository {
 	return &ProductRepository{DB: db}
+}
+
+func (r *ProductRepository) FindProduct(id string) (*models.Product, error) {
+	query := `
+	  SELECT id, title, description, price, available FROM products WHERE id = ?
+	`
+	var prod models.Product
+
+	row := r.DB.QueryRow(query, id)
+	err := row.Scan(
+		&prod.Id,
+		&prod.Title,
+		&prod.Description,
+		&prod.Price,
+		&prod.Available,
+	)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrProductNotFound
+		}
+		return nil, err
+	}
+
+	// Obtener las imágenes
+	queryImages := `
+	  SELECT filename FROM images WHERE product_id = ?
+	`
+	rows, err := r.DB.Query(queryImages, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var filename string
+		err := rows.Scan(
+			&filename,
+		)
+		if err != nil {
+			return nil, err
+		}
+		prod.Images = append(prod.Images, filename)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return &prod, nil
 }
 
 func (r *ProductRepository) GetProducts() ([]*models.Product, error) {

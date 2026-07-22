@@ -1,0 +1,12 @@
+package pages
+
+import "github.com/joseyanez/dummies-app/internal/products/models"
+import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
+
+templ ViewProductPage(product *models.Product) {
+  @layouts.AdminLayout("Producto"){
+    if product != nil {
+      <h1 class="text-4xl font-bold mt-4 mb-6">{product.Title}</h1>
+    }
+  }
+}

@@ -7,6 +7,7 @@ import "github.com/joseyanez/dummies-app/internal/products/services"
 templ CreateProductPage(productRequest services.ProductCreateRequest, errors map[string]string) {
   @layouts.AdminLayout("Crear nuevo producto"){
 
+    <a class="block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4" href="/admin/products"> -- Atrás</a>
     <h1 class="text-3xl font-bold mt-4 mb-6">Crear nuevo producto</h1>
 
     <form class="lg:w-2/5" action="/admin/products" method="POST" enctype="multipart/form-data">

@@ -134,12 +134,12 @@ func ViewProductPage(product *models.Product) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				if product.Available {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"bg-bluemmy-300 w-min border border-bluemmy-500 rounded-full p-1\">Disponible</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"bg-bluemmy-200 w-min border border-bluemmy-500 rounded-full py-1 px-2\">Disponible</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				} else {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<div class=\"bg-red-300 w-min text-white text-sm border border-red-500 rounded-full p-1\">No disponible</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<div class=\"bg-red-200 w-min text-white text-sm border border-red-500 rounded-full py-1 px-2\">No disponible</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

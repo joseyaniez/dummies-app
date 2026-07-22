@@ -45,7 +45,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<h1 class=\"text-3xl font-bold mt-4 mb-6\">Crear nuevo producto</h1><form class=\"lg:w-2/5\" action=\"/admin/products\" method=\"POST\" enctype=\"multipart/form-data\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<a class=\"block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4\" href=\"/admin/products\">-- Atrás</a><h1 class=\"text-3xl font-bold mt-4 mb-6\">Crear nuevo producto</h1><form class=\"lg:w-2/5\" action=\"/admin/products\" method=\"POST\" enctype=\"multipart/form-data\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -57,7 +57,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(errors["form"])
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 16, Col: 26}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 17, Col: 26}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -76,7 +76,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(errors["image_form"])
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 22, Col: 32}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 23, Col: 32}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -94,7 +94,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.ResolveAttributeValue(productRequest.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 30, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 31, Col: 77}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
 			if templ_7745c5c3_Err != nil {
@@ -112,7 +112,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(errors["title"])
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 32, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 33, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -130,7 +130,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(productRequest.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 39, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 40, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -148,7 +148,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(errors["description"])
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 42, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 43, Col: 72}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -166,7 +166,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.ResolveAttributeValue(productRequest.Price)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 50, Col: 99}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 51, Col: 99}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
 			if templ_7745c5c3_Err != nil {
@@ -184,7 +184,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(errors["price"])
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 52, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/create.templ`, Line: 53, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {

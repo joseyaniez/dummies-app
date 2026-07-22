@@ -20,9 +20,9 @@ templ ViewProductPage(product *models.Product) {
           <p class="text-lg text-gray-500">{product.Description}</p>
           <p class="text-2xl font-bold">S/.{product.Price}</p>
           if product.Available {
-            <div class="bg-bluemmy-300 w-min border border-bluemmy-500 rounded-full p-1">Disponible</div>
+            <div class="bg-bluemmy-200 w-min border border-bluemmy-500 rounded-full py-1 px-2">Disponible</div>
           } else {
-            <div class="bg-red-300 w-min text-white text-sm border border-red-500 rounded-full p-1">No disponible</div>
+            <div class="bg-red-200 w-min text-white text-sm border border-red-500 rounded-full py-1 px-2">No disponible</div>
           }
           if len(product.Images) > 0 {
             <div class="mt-2 flex flex-row gap-1">

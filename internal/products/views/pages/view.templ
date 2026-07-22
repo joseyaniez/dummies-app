@@ -5,8 +5,51 @@ import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
 
 templ ViewProductPage(product *models.Product) {
   @layouts.AdminLayout("Producto"){
-    if product != nil {
-      <h1 class="text-4xl font-bold mt-4 mb-6">{product.Title}</h1>
+    <a class="block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4" href="/admin/products"> -- Atrás</a>
+    if product == nil {
+      <p class="text-3xl text-red-500 font-bold">Producto no encontrado</p>
+    } else {
+      <div class="sm:flex flex-row gap-4">
+        if len(product.Images) > 0 {
+          <div class="sm:max-w-100">
+            <img class="rounded-md" src={"/static/images/" + product.Images[0]} alt={product.Title}>
+          </div>
+        }
+        <div class="sm:flex-1 flex flex-col gap-2">
+          <h1 class="text-3xl font-bold">{product.Title}</h1>
+          <p class="text-lg text-gray-500">{product.Description}</p>
+          <p class="text-2xl font-bold">S/.{product.Price}</p>
+          if product.Available {
+            <div class="bg-bluemmy-300 w-min border border-bluemmy-500 rounded-full p-1">Disponible</div>
+          } else {
+            <div class="bg-red-300 w-min text-white text-sm border border-red-500 rounded-full p-1">No disponible</div>
+          }
+          if len(product.Images) > 0 {
+            <div class="mt-2 flex flex-row gap-1">
+              for _, img := range product.Images[1:] {
+                <img class="max-h-36 aspect-2/3 object-cover rounded" src={"/static/images/" + img} alt={product.Title}>
+              }
+            </div>
+          }
+
+          <div class="flex flex-row justify-end items-center gap-2">
+            <button 
+              class="bg-red-500 rounded-2xl px-4 py-2 hover:bg-red-600 text-white font-bold cursor-pointer"
+              hx-delete={"/admin/products/" + product.Id}
+              hx-target="body"
+              hx-confirm="¿Estás seguro de eliminar este producto?"
+            >
+              Eliminar
+            </button>
+            <a 
+              class="block bg-bluemmy-500 rounded-2xl px-4 py-2 hover:bg-bluemmy-600 text-white font-bold cursor-pointer"
+              href={"/admin/product/edit/" + product.Id}
+            >
+              Editar
+            </a>
+          </div>
+        </div>
+      </div>
     }
   }
 }

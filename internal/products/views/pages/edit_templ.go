@@ -11,8 +11,9 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
 import "github.com/joseyanez/dummies-app/internal/products/models"
 import "github.com/joseyanez/dummies-app/internal/products/views/components/form"
+import "github.com/joseyanez/dummies-app/internal/products/services"
 
-func EditProductPage(prod *models.Product, values, errors map[string]string) templ.Component {
+func EditProductPage(prod *models.Product, productRequest services.ProductEditRequest, errors map[string]string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -62,13 +63,13 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue("/admin/products/" + prod.Id)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 16, Col: 42}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 17, Col: 42}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" enctype=\"multipart/form-data\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" hx-push-url=\"true\" hx-target=\"body\" enctype=\"multipart/form-data\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -80,7 +81,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var4 string
 					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(errors["form"])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 22, Col: 28}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 25, Col: 28}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 					if templ_7745c5c3_Err != nil {
@@ -99,7 +100,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(errors["image_form"])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 28, Col: 34}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 31, Col: 34}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
@@ -122,7 +123,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var6 string
 					templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.ResolveAttributeValue(prod.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 37, Col: 71}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 40, Col: 71}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6)
 					if templ_7745c5c3_Err != nil {
@@ -138,9 +139,9 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var7 string
-					templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.ResolveAttributeValue(values["title"])
+					templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.ResolveAttributeValue(productRequest.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 41, Col: 76}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 44, Col: 81}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var7)
 					if templ_7745c5c3_Err != nil {
@@ -159,7 +160,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var8 string
 					templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(errors["title"])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 44, Col: 68}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 47, Col: 68}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 					if templ_7745c5c3_Err != nil {
@@ -182,7 +183,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var9 string
 					templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(prod.Description)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 52, Col: 32}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 55, Col: 32}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 					if templ_7745c5c3_Err != nil {
@@ -198,9 +199,9 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var10 string
-					templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(values["description"])
+					templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(productRequest.Description)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 56, Col: 37}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 59, Col: 42}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 					if templ_7745c5c3_Err != nil {
@@ -219,7 +220,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var11 string
 					templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(errors["description"])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 60, Col: 74}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 63, Col: 74}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 					if templ_7745c5c3_Err != nil {
@@ -242,7 +243,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var12 string
 					templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.ResolveAttributeValue(prod.Price)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 69, Col: 93}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 72, Col: 93}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
 					if templ_7745c5c3_Err != nil {
@@ -258,9 +259,9 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var13 string
-					templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.ResolveAttributeValue(values["price"])
+					templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.ResolveAttributeValue(productRequest.Price)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 72, Col: 98}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 75, Col: 103}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
 					if templ_7745c5c3_Err != nil {
@@ -279,7 +280,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var14 string
 					templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(errors["price"])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 76, Col: 68}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 79, Col: 68}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 					if templ_7745c5c3_Err != nil {
@@ -295,14 +296,14 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					return templ_7745c5c3_Err
 				}
 				for index, image := range prod.Images {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "<div x-data=\"{ visible: true }\" class=\"relative\"><div x-show=\"visible\"><input class=\"input-img\" name=\"images_filenames\" type=\"checkbox\" checked hidden id=\"")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "<div x-data=\"{ visible: true }\" class=\"relative\"><div x-show=\"visible\"><input class=\"input-img\" name=\"images_filenames\" type=\"checkbox\" hidden id=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var15 string
 					templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.ResolveAttributeValue(index)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 91, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 93, Col: 28}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
 					if templ_7745c5c3_Err != nil {
@@ -313,9 +314,9 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var16 string
-					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.ResolveAttributeValue("/static/image/" + image)
+					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.ResolveAttributeValue(image)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 92, Col: 48}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 94, Col: 31}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
 					if templ_7745c5c3_Err != nil {
@@ -328,7 +329,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var17 string
 					templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.ResolveAttributeValue("/static/images/" + image)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 94, Col: 92}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 96, Col: 94}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var17)
 					if templ_7745c5c3_Err != nil {
@@ -341,7 +342,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var18 string
 					templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.ResolveAttributeValue(prod.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 94, Col: 109}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 96, Col: 111}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var18)
 					if templ_7745c5c3_Err != nil {
@@ -354,7 +355,7 @@ func EditProductPage(prod *models.Product, values, errors map[string]string) tem
 					var templ_7745c5c3_Var19 string
 					templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.ResolveAttributeValue(index)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 95, Col: 61}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/edit.templ`, Line: 97, Col: 63}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var19)
 					if templ_7745c5c3_Err != nil {

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/joseyanez/dummies-app/internal/products/models"
@@ -142,7 +143,7 @@ func (r *ProductRepository) SaveProduct(title, description string, price float64
 	return int(id), err
 }
 
-func (r *ProductRepository) SaveProductImageFilenames(productId int, filenames []string) error {
+func (r *ProductRepository) SaveProductImageFilenames(productId string, filenames []string) error {
 	query := `
 		INSERT INTO images (product_id, filename, created_at, updated_at) VALUES (?, ?, ?, ?)
 	`
@@ -154,5 +155,42 @@ func (r *ProductRepository) SaveProductImageFilenames(productId int, filenames [
 		}
 	}
 
+	return nil
+}
+
+func (r *ProductRepository) DeleteProductImageFilenames(filenames []string) error {
+	placeholders := make([]string, len(filenames))
+	args := make([]any, len(filenames))
+
+	for i, filename := range filenames {
+		placeholders[i] = "?"
+		args[i] = filename
+	}
+
+	query := fmt.Sprintf(
+		"DELETE FROM images WHERE filename IN (%s)",
+		strings.Join(placeholders, ","),
+	)
+
+	_, err := r.DB.Exec(query, args...)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ProductRepository) EditProduct(id, title, description string, price float64) error {
+	query := `
+	  UPDATE products
+		SET title = ?,
+		    description = ?,
+				price = ?,
+				updated_at = ?
+		WHERE id = ?
+	`
+	_, err := r.DB.Exec(query, title, description, price, time.Now(), id)
+	if err != nil {
+		return err
+	}
 	return nil
 }

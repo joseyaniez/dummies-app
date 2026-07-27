@@ -51,3 +51,25 @@ func SaveImages(images []*multipart.FileHeader) (filenames, errors []string) {
 	}
 	return
 }
+
+func DeleteImages(images []string) (errors []string) {
+	uploadDir := "web/static/images/"
+
+	for _, image := range images {
+		path := filepath.Join(uploadDir, image)
+
+		err := os.Remove(path)
+		if err != nil {
+			if os.IsNotExist(err) {
+				log.Println("Image does not exist:", path)
+				errors = append(errors, "Image does not exist: "+image)
+				continue
+			}
+
+			log.Println("Failed to delete image:", err)
+			errors = append(errors, "Failed to delete image: "+image)
+		}
+	}
+
+	return
+}

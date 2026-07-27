@@ -8,3 +8,11 @@ type ProductCreateRequest struct {
 	Price       string
 	Images      []*multipart.FileHeader
 }
+
+type ProductEditRequest struct {
+	Title           string
+	Description     string
+	Price           string
+	ImagesForDelete []string
+	Images          []*multipart.FileHeader
+}

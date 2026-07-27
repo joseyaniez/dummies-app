@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -74,4 +75,28 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
+}
+
+func (h *ProductHandler) EditProductPage(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	values := make(map[string]string)
+	errors := make(map[string]string)
+	product, err := h.productService.GetProduct(id)
+	if err != nil {
+		pages.EditProductPage(nil, values, errors)
+	}
+	pages.EditProductPage(product, values, errors).Render(r.Context(), w)
+}
+
+func (h *ProductHandler) EditProduct(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
+		return
+	}
+	values := r.Form["images_filenames"]
+	fmt.Println("Los valores recibidos son:")
+	for _, v := range values {
+		fmt.Println(v)
+	}
+	pages.ListProductsPage(nil).Render(r.Context(), w)
 }

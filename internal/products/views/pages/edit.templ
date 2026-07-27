@@ -1,0 +1,111 @@
+package pages
+
+import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
+import "github.com/joseyanez/dummies-app/internal/products/models"
+import "github.com/joseyanez/dummies-app/internal/products/views/components/form"
+
+templ EditProductPage(prod *models.Product, values, errors map[string]string) {
+  @layouts.AdminLayout("Edit product"){
+    <a class="block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4" href="/admin/products"> -- Atrás</a>
+    if prod == nil {
+      <p class="text-3xl text-red-500 font-bold">Producto no encontrado</p>
+    } else {
+      <h1 class="text-3xl font-bold mt-4 mb-6">Editar producto</h1>
+      <form 
+      class="lg:w-2/5" 
+      hx-put={"/admin/products/" + prod.Id}  
+      enctype="multipart/form-data"
+      >
+
+        if errors["form"] != "" {
+          <div class="p-4 my-4 text-md bg-red-100 rounded-md border border-md border-red-500 text-red-700">
+            { errors["form"] }
+          </div>
+        }
+
+        if errors["image_form"] != "" {
+          <div class="p-4 my-4 text-md bg-red-100 rounded-md border border-md border-red-500 text-red-700">
+            { errors["image_form"] }
+          </div>
+        }
+
+        <div class="mb-6 flex flex-col gap-1">
+          <label for="#in_title" class="font-bold">Título</label>
+          if prod.Title != ""{
+            <input 
+              class="p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400" 
+              type="text" id="in_title" name="title" value={ prod.Title }>
+          } else {
+            <input 
+              class="p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400" 
+              type="text" id="in_title" name="title" value={ values["title"] }>
+          }
+          if errors["title"] != "" {
+            <span class="text-sm text-red-500 mx-2">{errors["title"]}</span>
+          }
+        </div>
+
+        <div class="mb-6 flex flex-col gap-1">
+          <label for="#in_title" class="font-bold">Descripción</label>
+          if prod.Description != ""{
+            <textarea class="p-2 border border-gray-400 max-h-40 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400" name="description" id="in_description">
+              { prod.Description }
+            </textarea>
+          } else {
+            <textarea class="p-2 border border-gray-400 max-h-40 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400" name="description" id="in_description">
+              { values["description"] }
+            </textarea>
+          }
+          if errors["description"] != "" {
+            <span class="text-sm text-red-500 mx-2">{errors["description"]}</span>
+          }
+        </div>
+
+        <div class="mb-8 flex flex-col gap-1">
+          <label for="#in_title" class="font-bold">Precio</label>
+          <div class="flex flex-row gap-2 items-center">
+            if prod.Price != 0.0 {
+              <input class="p-2 border border-gray-400 rounded-md w-1/3 focus:outline-0 focus:ring focus:ring-bluemmy-400" 
+              type="number" min="0" step="0.01" id="in_price" name="price" value={ prod.Price }>
+            } else {
+              <input class="p-2 border border-gray-400 rounded-md w-1/3 focus:outline-0 focus:ring focus:ring-bluemmy-400" 
+              type="number" min="0" step="0.01" id="in_price" name="price" value={ values["price"] }>
+              
+            }
+          if errors["price"] != "" {
+            <span class="text-sm text-red-500 mx-2">{errors["price"]}</span>
+          }
+          </div>
+        </div>
+
+        <div class="flex flex-row gap-4 justify-start items-center">
+          for index, image := range prod.Images {
+            <div x-data="{ visible: true }" class="relative">
+               <div x-show="visible">
+                 <input 
+                   class="input-img" 
+                   name="images_filenames" 
+                   type="checkbox" 
+                   checked
+                   hidden
+                   id={index}
+                   value={"/static/image/" + image}
+                 >
+                 <img class="w-30 h-30 object-cover rounded-md" src={"/static/images/" + image} alt={prod.Title}>
+                 <label x-on:click="visible = false" for={index} class="w-5 h-5 m-2 absolute flex justify-center items-center z-20 top-0 right-0 cursor-pointer bg-red-600 text-white rounded-full text-sm">x</label>
+               </div>
+            </div>
+          }
+        </div>
+
+        @form.ImageForm()
+
+        <div class="flex flex-row justify-end">
+          <button class="bg-bluemmy-500 text-white font-bold px-4 py-2 rounded cursor-pointer hover:bg-bluemmy-600">Guardar</button>
+        </div>
+
+      </form>
+    }
+  }
+  
+}

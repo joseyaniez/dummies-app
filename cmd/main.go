@@ -37,6 +37,8 @@ func main() {
 	r.Get("/admin/products", productHandler.GetProducts)
 	r.Post("/admin/products", productHandler.SaveProduct)
 	r.Get("/admin/products/{id}", productHandler.ViewProduct)
+	r.Get("/admin/products/edit/{id}", productHandler.EditProductPage)
+	r.Put("/admin/products/{id}", productHandler.EditProduct)
 
 	http.ListenAndServe(":8080", r)
 }

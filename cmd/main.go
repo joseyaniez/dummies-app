@@ -33,13 +33,13 @@ func main() {
 	productService := services.NewProductService(productRepository)
 	productHandler := handlers.NewProductHandler(productService)
 
-	r.Get("/admin/products/create", productHandler.CreateProduct)
-	r.Get("/admin/products", productHandler.GetProducts)
-	r.Post("/admin/products", productHandler.SaveProduct)
-	r.Get("/admin/products/{id}", productHandler.ViewProduct)
-	r.Get("/admin/products/edit/{id}", productHandler.EditProductPage)
-	r.Put("/admin/products/{id}", productHandler.EditProduct)
-	r.Delete("/admin/products/{id}", productHandler.DeleteProduct)
+	r.Get("/admin/products/create", productHandler.New)
+	r.Get("/admin/products", productHandler.List)
+	r.Post("/admin/products", productHandler.Create)
+	r.Get("/admin/products/{id}", productHandler.Show)
+	r.Get("/admin/products/edit/{id}", productHandler.Edit)
+	r.Put("/admin/products/{id}", productHandler.Update)
+	r.Delete("/admin/products/{id}", productHandler.Delete)
 
 	http.ListenAndServe(":8080", r)
 }

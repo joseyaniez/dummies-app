@@ -19,7 +19,7 @@ func NewProductHandler(productService *services.ProductService) *ProductHandler 
 	}
 }
 
-func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
 	products, err := h.productService.GetProducts()
 	if err != nil {
 		log.Println("Error obtain products: " + err.Error())
@@ -29,7 +29,7 @@ func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	pages.ListProductsPage(products).Render(r.Context(), w)
 }
 
-func (h *ProductHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Show(w http.ResponseWriter, r *http.Request) {
 	// obtener el producto con el id
 	id := chi.URLParam(r, "id")
 	prod, err := h.productService.GetProduct(id)
@@ -41,12 +41,12 @@ func (h *ProductHandler) ViewProduct(w http.ResponseWriter, r *http.Request) {
 	pages.ViewProductPage(prod).Render(r.Context(), w)
 }
 
-func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) New(w http.ResponseWriter, r *http.Request) {
 	productRequest := services.ProductCreateRequest{}
 	pages.CreateProductPage(productRequest, nil).Render(r.Context(), w)
 }
 
-func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(10 << 20) // 10 MB
 	if err != nil {
 		errorForm := map[string]string{"form": "Error interno al enviar el formulario, intente de nuevo más tarde"}
@@ -76,7 +76,7 @@ func (h *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }
 
-func (h *ProductHandler) EditProductPage(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Edit(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	errors := make(map[string]string)
 	product, err := h.productService.GetProduct(id)
@@ -86,7 +86,7 @@ func (h *ProductHandler) EditProductPage(w http.ResponseWriter, r *http.Request)
 	pages.EditProductPage(product, services.ProductEditRequest{}, errors).Render(r.Context(), w)
 }
 
-func (h *ProductHandler) EditProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
 		errorForm := map[string]string{"form": "Error interno al enviar el formulario, intente de nuevo más tarde"}
@@ -120,7 +120,7 @@ func (h *ProductHandler) EditProduct(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }
 
-func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	err := h.productService.DeleteProduct(id)
 	if err != nil {

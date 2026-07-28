@@ -16,12 +16,15 @@ templ ListProductsPage(products []*models.Product) {
     if products != nil {
       <div>
         for _, prod := range products {
-          <div class="w-full px-4 my-2 flex flex-row items-center bg-white h-28 rounded shadow-sm shadow-bluemmy-200">
-            <div class="w-12 text-md font-bold flex justify-center items-center">
+          <div class="w-full py-4 px-4 my-2 flex flex-col items-start md:flex-row md:items-center bg-white md:h-28 rounded shadow-sm shadow-bluemmy-200">
+            <div class="w-12 text-md font-bold hidden md:flex justify-center items-center">
               {prod.Id}
             </div>
             <div class="flex-1 flex flex-col gap-2">
               <p class="text-xl font-bold">{prod.Title}</p>
+              if prod.Description != ""{
+                <p class="text-sm text-gray-400 md:hidden">{prod.Description}</p>
+              }
               <div class="flex flex-row gap-2">
                 <p class="text-md bg-bluemmy-300 rounded-full px-2">S/.{prod.Price}</p>
                 <a href={"/admin/products/" + prod.Id}>Ver</a>
@@ -29,11 +32,11 @@ templ ListProductsPage(products []*models.Product) {
               </div>
             </div>
             if prod.Description != ""{
-              <div class="flex-1 mx-2 hidden sm:flex">
+              <div class="flex-1 mx-2 hidden md:flex">
                 {prod.Description}
               </div>
             }
-            <div class="hidden flex-1 md:flex flex-row justify-end gap-2">
+            <div class="hidden flex-1 lg:flex flex-row justify-end gap-2">
               if len(prod.Images) > 0 {
                   for _, img := range prod.Images {
                     <img class="block rounded h-20 w-auto" src={"/static/images/" + img} alt={prod.Title}>

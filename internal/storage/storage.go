@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"mime/multipart"
@@ -57,6 +58,8 @@ func DeleteImages(images []string) (errors []string) {
 
 	for _, image := range images {
 		path := filepath.Join(uploadDir, image)
+
+		fmt.Println(path)
 
 		err := os.Remove(path)
 		if err != nil {

@@ -119,3 +119,13 @@ func (h *ProductHandler) EditProduct(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }
+
+func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	err := h.productService.DeleteProduct(id)
+	if err != nil {
+		log.Printf("No se pudo eliminar la imagen: %s", err.Error())
+	}
+
+	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
+}

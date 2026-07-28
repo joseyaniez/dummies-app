@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"path/filepath"
 	"strconv"
 
 	"github.com/joseyanez/dummies-app/internal/products/models"
@@ -127,4 +128,34 @@ func (s *ProductService) EditProduct(id string, productRequest ProductEditReques
 	}
 
 	return nil, nil
+}
+
+func (s *ProductService) DeleteProduct(id string) error {
+	product, err := s.GetProduct(id)
+	if err != nil {
+		return err
+	}
+
+	images := []string{}
+	for _, image := range product.Images {
+		filename := filepath.Base(image)
+		images = append(images, filename)
+	}
+
+	imageErrors := storage.DeleteImages(images)
+	for _, err := range imageErrors {
+		log.Printf("Error al eliminar imágenes: %s", err)
+	}
+
+	err = s.productRepository.DeleteProductImageFilenames(images)
+	if err != nil {
+		return err
+	}
+
+	err = s.productRepository.DeleteProduct(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

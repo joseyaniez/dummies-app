@@ -194,3 +194,15 @@ func (r *ProductRepository) EditProduct(id, title, description string, price flo
 	}
 	return nil
 }
+
+func (r *ProductRepository) DeleteProduct(id string) error {
+	query := `
+	  DELETE FROM products WHERE id = ?
+	`
+	_, err := r.DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -41,5 +41,7 @@ func main() {
 	r.Put("/admin/products/{id}", productHandler.Update)
 	r.Delete("/admin/products/{id}", productHandler.Delete)
 
+	r.Get("/products", productHandler.PublicList)
+
 	http.ListenAndServe(":8080", r)
 }

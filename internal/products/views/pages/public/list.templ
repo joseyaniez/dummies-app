@@ -1,0 +1,10 @@
+package public
+
+import "github.com/joseyanez/dummies-app/internal/products/models"
+import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
+
+templ PublicListProductsPage(products []models.Product) {
+  @layouts.HomeLayout("Productos"){
+    <h1>Aquí se mostrarán los productos</h1>
+  }
+}

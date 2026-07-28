@@ -5,8 +5,10 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/joseyanez/dummies-app/internal/products/models"
 	"github.com/joseyanez/dummies-app/internal/products/services"
 	"github.com/joseyanez/dummies-app/internal/products/views/pages"
+	"github.com/joseyanez/dummies-app/internal/products/views/pages/public"
 )
 
 type ProductHandler struct {
@@ -128,4 +130,9 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
+}
+
+func (h *ProductHandler) PublicList(w http.ResponseWriter, r *http.Request) {
+	products := []models.Product{}
+	public.PublicListProductsPage(products).Render(r.Context(), w)
 }

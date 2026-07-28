@@ -1,0 +1,27 @@
+package layouts
+
+templ HomeLayout(title string) {
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+    if title == "" {
+      <title>Dummies App</title>
+    } else {
+      <title>{ title }</title>
+    }
+    <link rel="stylesheet" href="/static/css/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body hx-boost="true" class="bg-gray-100">
+    <header>
+      <nav>Public navbar</nav>
+    </header>
+    <main class="p-4 w-full lg:w-3/4 lg:mx-auto">
+      { children... }
+    </main>
+  </body>
+  </html>
+}

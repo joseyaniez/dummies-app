@@ -1,9 +1,18 @@
 package services
 
-type AuthService struct{}
+import (
+	"github.com/joseyanez/dummies-app/internal/auth/repositories"
+	"golang.org/x/crypto/bcrypt"
+)
 
-func NewAuthService() *AuthService {
-	return &AuthService{}
+type AuthService struct {
+	authRepository repositories.AuthRepository
+}
+
+func NewAuthService(authRepo repositories.AuthRepository) *AuthService {
+	return &AuthService{
+		authRepository: authRepo,
+	}
 }
 
 func (s *AuthService) CreateNewUser(request *CreateAdminRequest) (map[string]string, error) {
@@ -17,6 +26,18 @@ func (s *AuthService) CreateNewUser(request *CreateAdminRequest) (map[string]str
 	if len(validationErrors) > 0 {
 		return validationErrors, nil
 	}
+
 	// Hacer un hash de la contraseña
+	hash, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
+	}
+	passwordString := string(hash)
+
 	// Crear el nuevo usuario
+	err = s.authRepository.SaveAdmin(request.Name, passwordString)
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }

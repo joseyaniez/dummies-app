@@ -1,6 +1,10 @@
 package repositories
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"github.com/joseyanez/dummies-app/internal/auth/models"
+)
 
 type AuthRepository struct {
 	DB *sql.DB
@@ -21,4 +25,23 @@ func (r *AuthRepository) SaveAdmin(name, hashedPassword string) error {
 		return err
 	}
 	return nil
+}
+
+func (r *AuthRepository) FindByName(name string) (*models.Admin, error) {
+	query := `
+	  SELECT id, name, password FROM admins WHERE name = ?
+	`
+
+	var admin models.Admin
+	row := r.DB.QueryRow(query, name)
+	err := row.Scan(
+		&admin.Id,
+		&admin.Name,
+		&admin.Password,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &admin, nil
 }

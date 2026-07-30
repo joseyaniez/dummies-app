@@ -1,6 +1,7 @@
 package models
 
 type Admin struct {
-	Id   string
-	Name string
+	Id       string
+	Name     string
+	Password string
 }

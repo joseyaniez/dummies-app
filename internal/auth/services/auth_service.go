@@ -1,17 +1,25 @@
 package services
 
 import (
+	"database/sql"
+	"errors"
+	"time"
+
+	"github.com/joseyanez/dummies-app/internal/auth/models"
 	"github.com/joseyanez/dummies-app/internal/auth/repositories"
+	"github.com/joseyanez/dummies-app/internal/auth/util"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService struct {
-	authRepository repositories.AuthRepository
+	authRepository    repositories.AuthRepository
+	sessionRepository repositories.SessionRepository
 }
 
-func NewAuthService(authRepo repositories.AuthRepository) *AuthService {
+func NewAuthService(authRepo repositories.AuthRepository, sessionRepo repositories.SessionRepository) *AuthService {
 	return &AuthService{
-		authRepository: authRepo,
+		authRepository:    authRepo,
+		sessionRepository: sessionRepo,
 	}
 }
 
@@ -40,4 +48,48 @@ func (s *AuthService) CreateNewUser(request *CreateAdminRequest) (map[string]str
 		return nil, err
 	}
 	return nil, nil
+}
+
+func (s *AuthService) LoginUser(request LoginAdminRequest) (*LoginResult, error) {
+	// Buscar usuario
+	admin, err := s.authRepository.FindByName(request.Name)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return &LoginResult{
+				Errors:  map[string]string{"form": "Usuario o contraseña incorrectos"},
+				Session: nil,
+			}, nil
+		}
+		return nil, err
+	}
+	// Verificar contraseña
+	err = bcrypt.CompareHashAndPassword([]byte(admin.Password), []byte(request.Password))
+	if err != nil {
+		return &LoginResult{
+			Errors:  map[string]string{"form": "Usuario o contraseña incorrectos"},
+			Session: nil,
+		}, nil
+	}
+
+	// Generar token
+	token, err := util.GenerateToken()
+	if err != nil {
+		return nil, err
+	}
+	// Crear sesión con el token
+	session := models.Session{
+		AdminID:   admin.Id,
+		Token:     token,
+		ExpiresAt: time.Now().Add(24 * time.Hour),
+	}
+	// Guardar sesión en la base de datos
+	err = s.sessionRepository.SaveSession(&session)
+	if err != nil {
+		return nil, err
+	}
+
+	return &LoginResult{
+		Errors:  nil,
+		Session: &session,
+	}, nil
 }

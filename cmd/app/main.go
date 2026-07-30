@@ -5,6 +5,9 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	authHdl "github.com/joseyanez/dummies-app/internal/auth/handlers"
+	authRepo "github.com/joseyanez/dummies-app/internal/auth/repositories"
+	authServ "github.com/joseyanez/dummies-app/internal/auth/services"
 	"github.com/joseyanez/dummies-app/internal/database"
 	"github.com/joseyanez/dummies-app/internal/products/handlers"
 	"github.com/joseyanez/dummies-app/internal/products/repositories"
@@ -30,8 +33,14 @@ func main() {
 	})
 
 	productRepository := repositories.NewProductRepository(db)
+	authRepository := authRepo.NewAuthRepository(db)
+	sessionRepository := authRepo.NewSessionRepository(db)
+
 	productService := services.NewProductService(productRepository)
+	authService := authServ.NewAuthService(*authRepository, *sessionRepository)
+
 	productHandler := handlers.NewProductHandler(productService)
+	authHandler := authHdl.NewAuthHandler(*authService)
 
 	r.Get("/admin/products/create", productHandler.New)
 	r.Get("/admin/products", productHandler.List)
@@ -40,6 +49,7 @@ func main() {
 	r.Get("/admin/products/edit/{id}", productHandler.Edit)
 	r.Put("/admin/products/{id}", productHandler.Update)
 	r.Delete("/admin/products/{id}", productHandler.Delete)
+	r.Get("/admin/login", authHandler.Login)
 
 	r.Get("/products", productHandler.PublicList)
 

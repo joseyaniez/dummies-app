@@ -16,7 +16,8 @@ func main() {
 	defer db.Close()
 
 	authRepo := repositories.NewAuthRepository(db)
-	authService := services.NewAuthService(*authRepo)
+	sessionRepo := repositories.NewSessionRepository(db)
+	authService := services.NewAuthService(*authRepo, *sessionRepo)
 
 	adminReq := services.CreateAdminRequest{
 		Name:     "Gamer64XD",

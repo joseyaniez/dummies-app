@@ -19,7 +19,7 @@ func NewSessionRepository(db *sql.DB) *SessionRepository {
 
 func (r *SessionRepository) SaveSession(session *models.Session) error {
 	query := `
-	  INSERT INTO sessions(admin_id, token, expiresAt) VALUES (?, ?, ?)
+	  INSERT INTO sessions(admin_id, token, expires_at) VALUES (?, ?, ?)
 	`
 	result, err := r.DB.Exec(query, session.AdminID, session.Token, session.ExpiresAt)
 	if err != nil {

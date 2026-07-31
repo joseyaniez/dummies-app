@@ -29,7 +29,43 @@ func LoginPage(values, errors map[string]string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Admin</title><link rel=\"stylesheet\" href=\"/static/css/output.css\"></head><body class=\"w-full h-dvh\"><div class=\"h-full flex justify-center items-center bg-bluemmy-50\"><div class=\"p-10 rounded-xl shadow-sm shadow-bluemmy-300\"><h1 class=\"text-2xl mb-4 text-bluemmy-600 text-center w-full font-bold\">Iniciar sesión</h1><form action=\"/admin/login\" method=\"POST\"><div class=\"flex flex-col gap-4\"><div class=\"flex flex-col justify-start gap-1\"><label class=\"font-bold\" for=\"inUser\">Usuario</label> <input id=\"inUser\" class=\"p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400\" type=\"text\"></div><div class=\"flex flex-col justify-start gap-1\"><label class=\"font-bold\" for=\"inPass\">Contraseña</label> <input id=\"inPass\" class=\"p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400\" type=\"password\"></div><button class=\"py-2 mt-2 bg-bluemmy-500 font-bold text-white rounded hover:bg-bluemmy-600 cursor-pointer\">Ingresar</button></div></form></div></div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Admin</title><link rel=\"stylesheet\" href=\"/static/css/output.css\"></head><body class=\"w-full h-dvh\"><div class=\"h-full flex justify-center items-center bg-bluemmy-50\"><div class=\"p-10 mx-4 max-w-96 rounded-xl shadow-sm shadow-bluemmy-300\"><h1 class=\"text-2xl mb-4 text-bluemmy-600 text-center w-full font-bold\">Iniciar sesión</h1>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if errors["form"] != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<p class=\"py-2 mb-4 px-4 w-full bg-red-400 text-white rounded-md\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(errors["form"])
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/auth/views/pages/login.templ`, Line: 17, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form action=\"/admin/login\" method=\"POST\"><div class=\"flex flex-col gap-4\"><div class=\"flex flex-col justify-start gap-1\"><label class=\"font-bold\" for=\"inUser\">Usuario</label> <input id=\"inUser\" name=\"username\" class=\"p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400\" type=\"text\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue(values["username"])
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/auth/views/pages/login.templ`, Line: 28, Col: 41}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"></div><div class=\"flex flex-col justify-start gap-1\"><label class=\"font-bold\" for=\"inPass\">Contraseña</label> <input id=\"inPass\" name=\"password\" class=\"p-2 border border-gray-400 rounded-md focus:outline-0 focus:ring focus:ring-bluemmy-400\" type=\"password\"></div><button class=\"py-2 mt-2 bg-bluemmy-500 font-bold text-white rounded hover:bg-bluemmy-600 cursor-pointer\">Ingresar</button></div></form></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

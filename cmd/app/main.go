@@ -43,9 +43,11 @@ func main() {
 	productHandler := handlers.NewProductHandler(productService)
 	authHandler := authHdl.NewAuthHandler(*authService)
 
+	authMiddleware := middlewares.NewAuthMiddleware(*sessionRepository)
+
 	r.Get("/admin/products/create", productHandler.New)
 	// r.Get("/admin/products", productHandler.List)
-	r.With(middlewares.Logger).Get("/admin/products", productHandler.List)
+	r.With(authMiddleware.Auth).Get("/admin/products", productHandler.List)
 	r.Post("/admin/products", productHandler.Create)
 	r.Get("/admin/products/{id}", productHandler.Show)
 	r.Get("/admin/products/edit/{id}", productHandler.Edit)

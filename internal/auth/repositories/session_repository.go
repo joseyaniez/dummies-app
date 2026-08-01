@@ -34,3 +34,30 @@ func (r *SessionRepository) SaveSession(session *models.Session) error {
 
 	return nil
 }
+
+func (r *SessionRepository) GetSessionById(sessionToken string) (*models.Session, error) {
+	query := `
+	  SELECT id, admin_id, token, expires_at FROM sessions WHERE token = ?
+	`
+	row := r.DB.QueryRow(query, sessionToken)
+
+	session := &models.Session{}
+	err := row.Scan(&session.ID, &session.AdminID, &session.Token, &session.ExpiresAt)
+	if err != nil {
+		return nil, err
+	}
+
+	return session, nil
+}
+
+func (r *SessionRepository) DeleteSessionsByAdminId(adminId string) error {
+	query := `
+	  DELETE FROM sessions WHERE admin_id = ?
+	`
+	_, err := r.DB.Exec(query, adminId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

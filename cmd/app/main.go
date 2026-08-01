@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	authHdl "github.com/joseyanez/dummies-app/internal/auth/handlers"
+	"github.com/joseyanez/dummies-app/internal/auth/middlewares"
 	authRepo "github.com/joseyanez/dummies-app/internal/auth/repositories"
 	authServ "github.com/joseyanez/dummies-app/internal/auth/services"
 	"github.com/joseyanez/dummies-app/internal/database"
@@ -43,7 +44,8 @@ func main() {
 	authHandler := authHdl.NewAuthHandler(*authService)
 
 	r.Get("/admin/products/create", productHandler.New)
-	r.Get("/admin/products", productHandler.List)
+	// r.Get("/admin/products", productHandler.List)
+	r.With(middlewares.Logger).Get("/admin/products", productHandler.List)
 	r.Post("/admin/products", productHandler.Create)
 	r.Get("/admin/products/{id}", productHandler.Show)
 	r.Get("/admin/products/edit/{id}", productHandler.Edit)

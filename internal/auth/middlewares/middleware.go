@@ -56,3 +56,33 @@ func (m *AuthMIddleware) Auth(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func (m *AuthMIddleware) Guest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("session_id")
+		if err != nil || cookie.Value == "" {
+			log.Printf("Error retrieving session cookie: %v", err)
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		session, err := m.sessionRepository.GetSessionById(cookie.Value)
+		if err != nil {
+			log.Printf("Error retrieving session from repository: %v", err)
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		if session.ExpiresAt.Before(time.Now()) {
+			err := m.sessionRepository.DeleteSessionsByAdminId(session.AdminID)
+			if err != nil {
+				log.Printf("Error deleting expired session from repository: %v", err)
+			}
+			log.Printf("Session cookie has expired: %v", session.ExpiresAt)
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
+	})
+}

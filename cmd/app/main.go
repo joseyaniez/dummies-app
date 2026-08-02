@@ -56,8 +56,8 @@ func main() {
 		r.Delete("/products/{id}", productHandler.Delete)
 	})
 
-	r.Get("/admin/login", authHandler.LoginPage)
-	r.Post("/admin/login", authHandler.Login)
+	r.With(authMiddleware.Guest).Get("/admin/login", authHandler.LoginPage)
+	r.With(authMiddleware.Guest).Post("/admin/login", authHandler.Login)
 
 	r.Get("/products", productHandler.PublicList)
 

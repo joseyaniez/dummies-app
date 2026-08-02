@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -53,7 +54,8 @@ func (m *AuthMIddleware) Auth(next http.Handler) http.Handler {
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		ctx := context.WithValue(r.Context(), "admin_session", session.Token)
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 

@@ -4,7 +4,7 @@ import "github.com/joseyanez/dummies-app/internal/products/models"
 import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
 
 templ ViewProductPage(product *models.Product) {
-  @layouts.AdminLayout("Producto"){
+  @layouts.AdminLayout("Producto", ""){
     <a class="block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4" href="/admin/products"> -- Atrás</a>
     if product == nil {
       <p class="text-3xl text-red-500 font-bold">Producto no encontrado</p>

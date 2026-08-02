@@ -1,0 +1,14 @@
+package components
+
+templ AuthNavbar(username string) {
+  <div class="flex w-full justify-between items-center p-4 bg-white shadow-md shadow-bluemmy-300">
+    if username != "" {
+      <p class="flex-1 text-xl font-bold">Bienvenido { username }</p>
+    } else {
+      <p class="flex-1 text-xl font-bold">Bienvenido</p>
+    }
+    <form class="block" action="/admin/logout" method="POST">
+      <button class="text-md font-bold text-bluemmy-400 hover:text-bluemmy-500">Salir</button>
+    </form>
+  </div>
+}

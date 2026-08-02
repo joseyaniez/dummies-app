@@ -209,7 +209,7 @@ func CreateProductPage(productRequest services.ProductCreateRequest, errors map[
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layouts.AdminLayout("Crear nuevo producto").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = layouts.AdminLayout("Crear nuevo producto", "").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

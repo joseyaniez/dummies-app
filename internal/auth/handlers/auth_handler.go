@@ -63,3 +63,25 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, cookie)
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
 }
+
+func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
+	adminToken := r.Context().Value("admin_session").(string)
+	if adminToken != "" {
+		err := h.authService.LogoutUser(adminToken)
+		if err != nil {
+			log.Printf("Error in logout: %v", err)
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+			return
+		}
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     "session_id",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1,
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteLaxMode,
+	})
+	http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+}

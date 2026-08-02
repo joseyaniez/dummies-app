@@ -6,7 +6,7 @@ import "github.com/joseyanez/dummies-app/internal/products/views/components/form
 import "github.com/joseyanez/dummies-app/internal/products/services"
 
 templ EditProductPage(prod *models.Product, productRequest services.ProductEditRequest, errors map[string]string) {
-  @layouts.AdminLayout("Edit product"){
+  @layouts.AdminLayout("Edit product", ""){
     <a class="block text-bluemmy-400 bg-bluemmy-50 text-lg font-bold rounded-full my-4" href="/admin/products"> -- Atrás</a>
     if prod == nil {
       <p class="text-3xl text-red-500 font-bold">Producto no encontrado</p>

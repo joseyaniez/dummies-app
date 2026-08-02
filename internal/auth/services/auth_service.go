@@ -93,3 +93,11 @@ func (s *AuthService) LoginUser(request LoginAdminRequest) (*LoginResult, error)
 		Session: &session,
 	}, nil
 }
+
+func (s *AuthService) LogoutUser(token string) error {
+	err := s.sessionRepository.DeleteSessionsByToken(token)
+	if err != nil {
+		return err
+	}
+	return nil
+}

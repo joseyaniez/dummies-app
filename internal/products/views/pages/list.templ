@@ -4,7 +4,7 @@ import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
 import "github.com/joseyanez/dummies-app/internal/products/models"
 
 templ ListProductsPage(products []*models.Product) {
-  @layouts.AdminLayout("Mis productos"){
+  @layouts.AdminLayout("Mis productos", ""){
     <h1 class="text-3xl font-bold my-4">Lista de productos</h1>
     <div class="flex justify-end my-4">
       <a href="/admin/products/create"

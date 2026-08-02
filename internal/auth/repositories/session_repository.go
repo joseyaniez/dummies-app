@@ -61,3 +61,15 @@ func (r *SessionRepository) DeleteSessionsByAdminId(adminId string) error {
 
 	return nil
 }
+
+func (r *SessionRepository) DeleteSessionsByToken(token string) error {
+	query := `
+	  DELETE FROM sessions WHERE token = ?
+	`
+	_, err := r.DB.Exec(query, token)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

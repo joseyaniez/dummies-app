@@ -54,6 +54,7 @@ func main() {
 		r.Put("/products/{id}", productHandler.Update)
 		r.Get("/products/{id}", productHandler.Show)
 		r.Delete("/products/{id}", productHandler.Delete)
+		r.Post("/logout", authHandler.Logout)
 	})
 
 	r.With(authMiddleware.Guest).Get("/admin/login", authHandler.LoginPage)

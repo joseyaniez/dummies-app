@@ -45,14 +45,17 @@ func main() {
 
 	authMiddleware := middlewares.NewAuthMiddleware(*sessionRepository)
 
-	r.Get("/admin/products/create", productHandler.New)
-	// r.Get("/admin/products", productHandler.List)
-	r.With(authMiddleware.Auth).Get("/admin/products", productHandler.List)
-	r.Post("/admin/products", productHandler.Create)
-	r.Get("/admin/products/{id}", productHandler.Show)
-	r.Get("/admin/products/edit/{id}", productHandler.Edit)
-	r.Put("/admin/products/{id}", productHandler.Update)
-	r.Delete("/admin/products/{id}", productHandler.Delete)
+	r.Route("/admin", func(r chi.Router) {
+		r.Use(authMiddleware.Auth)
+		r.Get("/products", productHandler.List)
+		r.Post("/products", productHandler.Create)
+		r.Get("/products/create", productHandler.New)
+		r.Get("/products/edit/{id}", productHandler.Edit)
+		r.Put("/products/{id}", productHandler.Update)
+		r.Get("/products/{id}", productHandler.Show)
+		r.Delete("/products/{id}", productHandler.Delete)
+	})
+
 	r.Get("/admin/login", authHandler.LoginPage)
 	r.Post("/admin/login", authHandler.Login)
 

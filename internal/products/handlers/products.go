@@ -133,6 +133,6 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) PublicList(w http.ResponseWriter, r *http.Request) {
-	products := []models.Product{}
+	products := []*models.Product{}
 	public.PublicListProductsPage(products).Render(r.Context(), w)
 }

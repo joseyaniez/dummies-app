@@ -1,6 +1,10 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 @theme {
+
+  --font-fredoka: 'Fredoka', 'sans-serif';
+  --font-playpen: 'Playpen Sans', 'sans-serif';
 
   --color-bluemmy-50: #eff5ff;
   --color-bluemmy-100: #dae9ff;

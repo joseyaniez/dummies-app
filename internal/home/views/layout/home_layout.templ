@@ -1,0 +1,26 @@
+package layout
+
+import "github.com/joseyanez/dummies-app/internal/home/views/partials"
+
+templ HomeLayout(title string) {
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    if title != "" {
+      <title>{title}</title>
+    } else {
+      <title>Dummies App!</title>
+    }
+    <link rel="stylesheet" href="/static/css/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+  <body>
+    @partials.Navbar()
+    <div class="lg:w-2/3 lg:mx-auto">
+      { children... }
+    </div>
+  </body>
+  </html>
+}

@@ -1,0 +1,76 @@
+package partials
+
+templ Navbar() {
+  <div class="border-2 h-11 py-2 px-4 content-center font-fredoka border-bluemmy-400 bg-bluemmy-50 m-2 rounded-full lg:my-2 lg:m-auto lg:w-2/3">
+
+    <div x-data="{open: false}" class="z-50 flex flex-row justify-between items-center">
+
+      <div class="relative flex flex-row gap-2 z-40">
+        <img src="/static/assets/logo.png" alt="Logo" class="h-6">
+        <p class="text-bluemmy-600">Giga3D</p>
+      </div>
+
+      <div
+        class="bg-bluemmy-50 absolute top-0 left-0 w-full p-2 pt-14
+               sm:static sm:block sm:p-0"
+        :class="{ 'hidden': !open }"
+      >
+        <ul class="flex flex-col sm:flex-row text-bluemmy-600 items-center gap-2 sm:justify-center sm:gap-4">
+          <li class="w-5/6 sm:w-min text-center">
+            <a href="/">Inicio</a>
+          </li>
+
+          <li class="w-5/6 sm:w-min text-center">
+            <a href="/products">Productos</a>
+          </li>
+
+          <li class="w-5/6 sm:w-min text-center">
+            <a href="#">Contacto</a>
+          </li>
+        </ul>
+      </div>
+
+      <button
+        @click="open = !open"
+        :aria-expanded="open"
+        class="z-40 relative w-5 h-5 flex items-center justify-center cursor-pointer sm:hidden"
+      >
+
+        <!-- Hamburguesa -->
+        <svg
+          x-show="!open"
+          class="w-6 h-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+
+        <!-- Cerrar -->
+        <svg
+          x-show="open"
+          class="w-6 h-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+
+      </button>
+    </div>
+  </div>
+}

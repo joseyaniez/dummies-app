@@ -10,6 +10,7 @@ import (
 	authRepo "github.com/joseyanez/dummies-app/internal/auth/repositories"
 	authServ "github.com/joseyanez/dummies-app/internal/auth/services"
 	"github.com/joseyanez/dummies-app/internal/database"
+	homeHdl "github.com/joseyanez/dummies-app/internal/home/handlers"
 	"github.com/joseyanez/dummies-app/internal/products/handlers"
 	"github.com/joseyanez/dummies-app/internal/products/repositories"
 	"github.com/joseyanez/dummies-app/internal/products/services"
@@ -41,9 +42,13 @@ func main() {
 	authService := authServ.NewAuthService(*authRepository, *sessionRepository)
 
 	productHandler := handlers.NewProductHandler(productService)
+	homeHandler := homeHdl.NewHomeHandler(productService)
 	authHandler := authHdl.NewAuthHandler(*authService)
 
 	authMiddleware := middlewares.NewAuthMiddleware(*sessionRepository)
+
+	r.Get("/", homeHandler.HomePage)
+	r.Get("/products", homeHandler.ProductsPage)
 
 	r.Route("/admin", func(r chi.Router) {
 		r.Use(authMiddleware.Auth)
@@ -59,8 +64,6 @@ func main() {
 
 	r.With(authMiddleware.Guest).Get("/admin/login", authHandler.LoginPage)
 	r.With(authMiddleware.Guest).Post("/admin/login", authHandler.Login)
-
-	r.Get("/products", productHandler.PublicList)
 
 	http.ListenAndServe(":8080", r)
 }

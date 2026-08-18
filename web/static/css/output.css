@@ -362,18 +362,6 @@
   .flex-2 {
     flex: 2;
   }
-  .flex-3 {
-    flex: 3;
-  }
-  .flex-4 {
-    flex: 4;
-  }
-  .flex-5 {
-    flex: 5;
-  }
-  .flex-6 {
-    flex: 6;
-  }
   .border-collapse {
     border-collapse: collapse;
   }
@@ -500,9 +488,6 @@
   .bg-red-600 {
     background-color: var(--color-red-600);
   }
-  .bg-slate-700 {
-    background-color: var(--color-slate-700);
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -616,6 +601,10 @@
   }
   .shadow-sm {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .ring {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-bluemmy-200 {
@@ -774,24 +763,9 @@
       display: none;
     }
   }
-  .md\:h-20 {
-    @media (width >= 48rem) {
-      height: calc(var(--spacing) * 20);
-    }
-  }
   .md\:h-28 {
     @media (width >= 48rem) {
       height: calc(var(--spacing) * 28);
-    }
-  }
-  .md\:w-20 {
-    @media (width >= 48rem) {
-      width: calc(var(--spacing) * 20);
-    }
-  }
-  .md\:flex-1 {
-    @media (width >= 48rem) {
-      flex: 1;
     }
   }
   .md\:grid-cols-3 {
@@ -807,16 +781,6 @@
   .md\:items-center {
     @media (width >= 48rem) {
       align-items: center;
-    }
-  }
-  .md\:justify-between {
-    @media (width >= 48rem) {
-      justify-content: space-between;
-    }
-  }
-  .md\:gap-2 {
-    @media (width >= 48rem) {
-      gap: calc(var(--spacing) * 2);
     }
   }
   .lg\:m-auto {
@@ -839,16 +803,6 @@
       display: flex;
     }
   }
-  .lg\:h-20 {
-    @media (width >= 64rem) {
-      height: calc(var(--spacing) * 20);
-    }
-  }
-  .lg\:h-30 {
-    @media (width >= 64rem) {
-      height: calc(var(--spacing) * 30);
-    }
-  }
   .lg\:h-80 {
     @media (width >= 64rem) {
       height: calc(var(--spacing) * 80);
@@ -867,31 +821,6 @@
   .lg\:w-3\/4 {
     @media (width >= 64rem) {
       width: calc(3 / 4 * 100%);
-    }
-  }
-  .lg\:w-20 {
-    @media (width >= 64rem) {
-      width: calc(var(--spacing) * 20);
-    }
-  }
-  .lg\:w-30 {
-    @media (width >= 64rem) {
-      width: calc(var(--spacing) * 30);
-    }
-  }
-  .lg\:flex-1 {
-    @media (width >= 64rem) {
-      flex: 1;
-    }
-  }
-  .lg\:flex-row {
-    @media (width >= 64rem) {
-      flex-direction: row;
-    }
-  }
-  .lg\:flex-row-reverse {
-    @media (width >= 64rem) {
-      flex-direction: row-reverse;
     }
   }
   .xl\:grid-cols-4 {

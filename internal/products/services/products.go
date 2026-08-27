@@ -22,8 +22,8 @@ func NewProductService(productRepository *repositories.ProductRepository) *Produ
 	}
 }
 
-func (s *ProductService) GetProducts() ([]*models.Product, error) {
-	products, err := s.productRepository.GetProducts()
+func (s *ProductService) GetProducts(page int) ([]*models.Product, error) {
+	products, err := s.productRepository.GetProducts(page)
 	if err != nil {
 		return nil, err
 	}

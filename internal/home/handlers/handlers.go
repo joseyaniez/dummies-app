@@ -3,6 +3,7 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/joseyanez/dummies-app/internal/home/views/pages"
 	"github.com/joseyanez/dummies-app/internal/products/models"
@@ -25,11 +26,18 @@ func (h *HomeHandler) HomePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *HomeHandler) ProductsPage(w http.ResponseWriter, r *http.Request) {
-	products, err := h.productService.GetProducts()
+	query := r.URL.Query()
+	page := 1
+	if value := query.Get("page"); value != "" {
+		if p, err := strconv.Atoi(value); err == nil && p >= 1 {
+			page = p
+		}
+	}
+	products, err := h.productService.GetProducts(page)
 	if err != nil {
 		log.Println("Error obtain products: " + err.Error())
 		prods := []*models.Product{}
-		public.PublicListProductsPage(prods).Render(r.Context(), w)
+		public.PublicListProductsPage(prods, page).Render(r.Context(), w)
 	}
-	public.PublicListProductsPage(products).Render(r.Context(), w)
+	public.PublicListProductsPage(products, page).Render(r.Context(), w)
 }

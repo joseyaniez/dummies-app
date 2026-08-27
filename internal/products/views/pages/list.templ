@@ -2,13 +2,18 @@ package pages
 
 import "github.com/joseyanez/dummies-app/internal/common/views/layouts"
 import "github.com/joseyanez/dummies-app/internal/products/models"
+import "fmt"
 
-templ ListProductsPage(products []*models.Product) {
+templ ListProductsPage(products []*models.Product, page int) {
   @layouts.AdminLayout("Mis productos", ""){
     <h1 class="text-3xl font-bold my-4">Lista de productos</h1>
-    <div class="flex justify-end my-4">
+    <div class="flex justify-between my-4">
+      <div class="flex flex-row gap-2">
+        <a class="rounded-l-xl bg-bluemmy-500 text-white py-1 px-2" href={"/admin/products?page=" + fmt.Sprintf("%d", page - 1)}>&lt</a>
+        <a class="rounded-r-xl bg-bluemmy-500 text-white py-1 px-2" href={"/admin/products?page=" + fmt.Sprintf("%d", page + 1)}>&gt</a>
+      </div>
       <a href="/admin/products/create"
-        class="bg-bluemmy-500 hover:bg-bluemmy-700 text-white font-bold py-1 px-2 rounded"
+        class="bg-bluemmy-500 hover:bg-bluemmy-700 text-white content-center font-bold py-1 px-2 rounded"
       >
         Nuevo producto
       </a>
@@ -46,6 +51,8 @@ templ ListProductsPage(products []*models.Product) {
           </div>
         }
       </div>
+    } else if page > 1 {
+      <div class="p-4 my-2 w-full bg-bluemmy-200 border border-md border-bluemmy-400  rounded-md">No hay más productos</div>
     } else {
       <div class="p-4 my-2 w-full bg-bluemmy-200 border border-md border-bluemmy-400  rounded-md">No hay productos ahora</div>
     }

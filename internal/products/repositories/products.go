@@ -69,14 +69,19 @@ func (r *ProductRepository) FindProduct(id string) (*models.Product, error) {
 	return &prod, nil
 }
 
-func (r *ProductRepository) GetProducts() ([]*models.Product, error) {
+func (r *ProductRepository) GetProducts(page int) ([]*models.Product, error) {
+	offset := (page - 1) * 10
+	if page == 0 {
+		offset = 0
+	}
 	query := `
 		SELECT products.id, title, description, price, available, images.filename AS filename 
 		FROM products 
 		LEFT JOIN images 
 	  	ON images.product_id = products.id
+		LIMIT ? OFFSET ?
 	`
-	rows, err := r.DB.Query(query)
+	rows, err := r.DB.Query(query, 10, offset)
 	if err != nil {
 		return nil, err
 	}

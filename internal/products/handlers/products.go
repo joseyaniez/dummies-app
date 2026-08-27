@@ -3,12 +3,11 @@ package handlers
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/joseyanez/dummies-app/internal/products/models"
 	"github.com/joseyanez/dummies-app/internal/products/services"
 	"github.com/joseyanez/dummies-app/internal/products/views/pages"
-	"github.com/joseyanez/dummies-app/internal/products/views/pages/public"
 )
 
 type ProductHandler struct {
@@ -22,13 +21,20 @@ func NewProductHandler(productService *services.ProductService) *ProductHandler 
 }
 
 func (h *ProductHandler) List(w http.ResponseWriter, r *http.Request) {
-	products, err := h.productService.GetProducts()
+	query := r.URL.Query()
+	page := 1
+	if value := query.Get("page"); value != "" {
+		if p, err := strconv.Atoi(value); err == nil && p >= 1 {
+			page = p
+		}
+	}
+	products, err := h.productService.GetProducts(page)
 	if err != nil {
 		log.Println("Error obtain products: " + err.Error())
-		pages.ListProductsPage(nil).Render(r.Context(), w)
+		pages.ListProductsPage(nil, page).Render(r.Context(), w)
 		return
 	}
-	pages.ListProductsPage(products).Render(r.Context(), w)
+	pages.ListProductsPage(products, page).Render(r.Context(), w)
 }
 
 func (h *ProductHandler) Show(w http.ResponseWriter, r *http.Request) {
@@ -130,9 +136,4 @@ func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/admin/products", http.StatusSeeOther)
-}
-
-func (h *ProductHandler) PublicList(w http.ResponseWriter, r *http.Request) {
-	products := []*models.Product{}
-	public.PublicListProductsPage(products).Render(r.Context(), w)
 }

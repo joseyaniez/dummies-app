@@ -60,7 +60,8 @@ func (s *ProductService) SaveProduct(productRequest ProductCreateRequest) (map[s
 		return nil, err
 	}
 
-	filenames, errorsStr := storage.SaveImages(productRequest.Images)
+	// filenames, errorsStr := storage.SaveImages(productRequest.Images)
+	filenames, errorsStr := storage.NewSaveImages(productRequest.Images)
 
 	if len(errorsStr) > 0 {
 		error := ""
@@ -111,7 +112,8 @@ func (s *ProductService) EditProduct(id string, productRequest ProductEditReques
 	}
 
 	// insertar físicamente las nuevas imágenes
-	filenames, errorsStr := storage.SaveImages(productRequest.Images)
+	// filenames, errorsStr := storage.SaveImages(productRequest.Images)
+	filenames, errorsStr := storage.NewSaveImages(productRequest.Images)
 
 	if len(errorsStr) > 0 {
 		error := ""

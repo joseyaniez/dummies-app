@@ -3,6 +3,7 @@ module github.com/joseyanez/dummies-app
 go 1.26.4
 
 require (
+	github.com/HugoSmits86/nativewebp v1.3.0 // indirect
 	github.com/a-h/templ v0.3.1020 // indirect
 	github.com/brianvoe/gofakeit/v7 v7.15.0 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect

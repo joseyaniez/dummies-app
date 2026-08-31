@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/disintegration/imaging"
 	"github.com/google/uuid"
 )
 
@@ -27,11 +28,14 @@ func NewSaveImages(images []*multipart.FileHeader) (filenames, imageErrors []str
 		if err != nil {
 			imageErrors = append(imageErrors, fmt.Sprintf("Error al abrir la imagen: %s", image.Filename))
 			log.Println("Failed to open image: ", err)
+			wgImages.Done()
+			continue
 		}
 
 		go func(imageFile multipart.File, filename string) {
 			defer wgImages.Done()
 			defer imageFile.Close()
+
 			// Validar imagen: (formato permitido y dimensiones máximas)
 			imgConfig, format, err := imagePkg.DecodeConfig(imageFile)
 			if err != nil {
@@ -46,18 +50,39 @@ func NewSaveImages(images []*multipart.FileHeader) (filenames, imageErrors []str
 				imageErrorsChan <- fmt.Sprintf("Formato de imagen %s no válido", filename)
 				return
 			}
+
 			// Obtener el ancho de la imagen
 			imageWidth := imgConfig.Width
 
+			// Volver al principio del archivo.
+			if _, err := imageFile.Seek(0, io.SeekStart); err != nil {
+				imageErrorsChan <- fmt.Sprintf("Error al reposicionar la imagen %s", filename)
+				return
+			}
+
+			// Decodificar UNA sola vez.
+			imagingFile, err := imaging.Decode(imageFile)
+			if err != nil {
+				imageErrorsChan <- fmt.Sprintf(
+					"Error al decodificar la imagen %s",
+					filename,
+				)
+				return
+			}
+
 			// Determinar variantes de la imagen necesarias
 			for _, targetWidth := range widths {
-				if targetWidth < imageWidth {
-					// generar nueva imagen
+				if targetWidth <= imageWidth {
+					// Redimensionar una nueva imagen
+					if err != nil {
+						imageErrorsChan <- fmt.Sprint("Error al decodificar imagen para redimensión")
+						log.Println("Error while image decode in redimention: ", err)
+						return
+					}
+					resized := imaging.Resize(imagingFile, targetWidth, 0, imaging.Lanczos)
+					// Aquí codificar en webp y guardar la imagen
 				}
 			}
-			// Redimensionar manteniendo proporción
-			// Codificar como WebP
-			// Guardar variantes en disco
 		}(imageFile, image.Filename)
 	}
 

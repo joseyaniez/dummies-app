@@ -295,7 +295,7 @@ func EditProductPage(prod *models.Product, productRequest services.ProductEditRe
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				for index, image := range prod.Images {
+				for index, image := range prod.ImagesMapToList() {
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "<div x-data=\"{ visible: true }\" class=\"relative\"><div x-show=\"visible\"><input class=\"input-img\" name=\"images_filenames\" type=\"checkbox\" hidden id=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err

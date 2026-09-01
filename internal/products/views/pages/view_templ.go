@@ -64,9 +64,9 @@ func ViewProductPage(product *models.Product) templ.Component {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var3 string
-					templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue("/static/images/" + product.Images[0])
+					templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.ResolveAttributeValue("/static/images/" + product.ImagesMapToList()[0])
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/view.templ`, Line: 15, Col: 78}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/view.templ`, Line: 15, Col: 89}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
 					if templ_7745c5c3_Err != nil {
@@ -79,7 +79,7 @@ func ViewProductPage(product *models.Product) templ.Component {
 					var templ_7745c5c3_Var4 string
 					templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(product.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/view.templ`, Line: 15, Col: 98}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/products/views/pages/view.templ`, Line: 15, Col: 109}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
 					if templ_7745c5c3_Err != nil {
@@ -149,7 +149,7 @@ func ViewProductPage(product *models.Product) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					for _, img := range product.Images[1:] {
+					for _, img := range product.ImagesMapToList()[1:] {
 						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<img class=\"max-h-36 aspect-2/3 object-cover rounded\" src=\"")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err

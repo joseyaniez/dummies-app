@@ -82,7 +82,7 @@ templ EditProductPage(prod *models.Product, productRequest services.ProductEditR
         </div>
 
         <div class="flex flex-row gap-4 justify-start items-center">
-          for index, image := range prod.Images {
+          for index, image := range prod.ImagesMapToList() {
             <div x-data="{ visible: true }" class="relative">
                <div x-show="visible">
                  <input 

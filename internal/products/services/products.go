@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"path/filepath"
 	"strconv"
 
+	"github.com/joseyanez/dummies-app/internal/products/helpers"
 	"github.com/joseyanez/dummies-app/internal/products/models"
 	"github.com/joseyanez/dummies-app/internal/products/repositories"
 	"github.com/joseyanez/dummies-app/internal/storage"
@@ -138,11 +138,7 @@ func (s *ProductService) DeleteProduct(id string) error {
 		return err
 	}
 
-	images := []string{}
-	for _, image := range product.Images {
-		filename := filepath.Base(image)
-		images = append(images, filename)
-	}
+	images := helpers.MapImagesToFilenames(product.Images)
 
 	imageErrors := storage.DeleteImages(images)
 	for _, err := range imageErrors {

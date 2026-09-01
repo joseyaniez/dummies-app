@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joseyanez/dummies-app/internal/products/helpers"
 	"github.com/joseyanez/dummies-app/internal/products/models"
 )
 
@@ -51,6 +52,7 @@ func (r *ProductRepository) FindProduct(id string) (*models.Product, error) {
 	}
 	defer rows.Close()
 
+	var filenamesResult []string
 	for rows.Next() {
 		var filename string
 		err := rows.Scan(
@@ -59,8 +61,11 @@ func (r *ProductRepository) FindProduct(id string) (*models.Product, error) {
 		if err != nil {
 			return nil, err
 		}
-		prod.Images = append(prod.Images, filename)
+		// prod.Images = append(prod.Images, filename)
+		filenamesResult = append(filenamesResult, filename)
 	}
+
+	prod.Images = helpers.FilenamesToMap(filenamesResult)
 
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -71,16 +76,26 @@ func (r *ProductRepository) FindProduct(id string) (*models.Product, error) {
 
 func (r *ProductRepository) GetProducts(page int) ([]*models.Product, error) {
 	offset := (page - 1) * 10
-	if page == 0 {
+	if page <= 0 {
 		offset = 0
 	}
+
 	query := `
-		SELECT products.id, title, description, price, available, images.filename AS filename 
-		FROM products 
-		LEFT JOIN images 
-	  	ON images.product_id = products.id
+		SELECT
+			products.id,
+			products.title,
+			products.description,
+			products.price,
+			products.available,
+			GROUP_CONCAT(images.filename) AS filenames
+		FROM products
+		LEFT JOIN images
+			ON images.product_id = products.id
+		GROUP BY products.id
+		ORDER BY products.id DESC
 		LIMIT ? OFFSET ?
 	`
+
 	rows, err := r.DB.Query(query, 10, offset)
 	if err != nil {
 		return nil, err
@@ -88,44 +103,34 @@ func (r *ProductRepository) GetProducts(page int) ([]*models.Product, error) {
 	defer rows.Close()
 
 	var products []*models.Product
+
 	for rows.Next() {
 		var prod models.Product
-		var filenameSql sql.NullString
-		var filename string
-		err = rows.Scan(
+		var filenamesSQL sql.NullString
+
+		err := rows.Scan(
 			&prod.Id,
 			&prod.Title,
 			&prod.Description,
 			&prod.Price,
 			&prod.Available,
-			&filenameSql,
+			&filenamesSQL,
 		)
 		if err != nil {
-			return nil, fmt.Errorf("Error scanning product: %w", err)
+			return nil, fmt.Errorf("error scanning product: %w", err)
 		}
 
-		if filenameSql.Valid {
-			filename = filenameSql.String
+		if filenamesSQL.Valid {
+			filenames := strings.Split(filenamesSQL.String, ",")
+
+			prod.Images = helpers.FilenamesToMap(filenames)
 		}
 
-		var exists bool = false
-		for _, p := range products {
-			if p.Id == prod.Id {
-				exists = true
-			}
-		}
-		if exists && filename != "" {
-			products[len(products)-1].Images = append(products[len(products)-1].Images, filename)
-		} else {
-			if filename != "" {
-				prod.Images = append(prod.Images, filename)
-			}
-			products = append(products, &prod)
-		}
+		products = append(products, &prod)
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("Error iterating scanning products: %w", err)
+		return nil, fmt.Errorf("error iterating scanning products: %w", err)
 	}
 
 	return products, nil

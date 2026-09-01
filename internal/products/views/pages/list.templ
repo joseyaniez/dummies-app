@@ -42,9 +42,12 @@ templ ListProductsPage(products []*models.Product, page int) {
               </div>
             }
             <div class="hidden flex-1 lg:flex flex-row justify-end gap-2">
-              if len(prod.Images) > 0 {
-                  for _, img := range prod.Images {
-                    <img class="block rounded h-20 w-auto" src={"/static/images/" + img} alt={prod.Title}>
+              {{
+                prodImages := prod.ImagesToSrcs("/static/images/")
+              }}
+              if len(prodImages) > 0 {
+                  for imgSrc, imgSrcset := range prodImages {
+                    <img class="block rounded h-20 w-auto" src={"/static/images/" + imgSrc} srcset={imgSrcset} alt={prod.Title}>
                   }
               }
             </div>

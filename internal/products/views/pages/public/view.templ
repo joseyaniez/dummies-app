@@ -29,8 +29,11 @@ templ PublicViewProductPage(product *models.Product) {
           if product.Description != ""{
             <p class="text-gray-400 font-fredoka text-md whitespace-pre-line">{product.Description}</p>
           }
-          if product.Price != 0 {
+          if product.Price != 0 && product.Available != false {
             <p class="text-bluemmy-500 font-playpen text-2xl mt-4 font-bold">S/.{product.Price}</p>
+          }
+          if product.Available == false {
+            <p class="text-red-500 font-playpen text-xl mt-4 font-bold">Agotado</p>
           }
           <div class="mt-4">
             <a 

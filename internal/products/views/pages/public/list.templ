@@ -14,7 +14,12 @@ templ PublicListProductsPage(products []*models.Product, page int) {
           prodSrcs := product.ImagesToSrcs("/static/images")
         }}
         <div 
-          id="product-item" class="p-4 hover:bg-bluemmy-50 cursor-pointer rounded-md shadow-md shadow-bluemmy-200 bg-white"
+          id="product-item" 
+          if product.Available == true {
+            class="p-4 hover:bg-bluemmy-50 cursor-pointer rounded-md shadow-md shadow-bluemmy-200 bg-white"
+          } else {
+            class="p-4 hover:bg-red-50 cursor-pointer rounded-md shadow-md shadow-red-200 bg-white"
+          }
           hx-trigger="click"
           hx-target="body"
           hx-get={"/products/" + fmt.Sprintf("%s", product.Id)}

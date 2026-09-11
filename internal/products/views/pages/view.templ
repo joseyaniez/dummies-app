@@ -17,7 +17,7 @@ templ ViewProductPage(product *models.Product) {
         }
         <div class="sm:flex-1 flex flex-col gap-2">
           <h1 class="text-3xl font-bold">{product.Title}</h1>
-          <p class="text-lg text-gray-500">{product.Description}</p>
+          <p class="text-lg text-gray-500 whitespace-pre-line">{product.Description}</p>
           <p class="text-2xl font-bold">S/.{product.Price}</p>
           if product.Available {
             <div class="bg-bluemmy-200 w-min border border-bluemmy-500 rounded-full py-1 px-2">Disponible</div>

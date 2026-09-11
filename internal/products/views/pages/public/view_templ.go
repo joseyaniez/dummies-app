@@ -154,7 +154,7 @@ func PublicViewProductPage(product *models.Product) templ.Component {
 						return templ_7745c5c3_Err
 					}
 				}
-				if product.Price != 0 {
+				if product.Price != 0 && product.Available != false {
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<p class=\"text-bluemmy-500 font-playpen text-2xl mt-4 font-bold\">S/.")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -173,7 +173,13 @@ func PublicViewProductPage(product *models.Product) templ.Component {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div class=\"mt-4\"><a href=\"https://wa.me/51935220199?text=Hola%2C%20quiero%20más%20información\" class=\"py-2 px-4 rounded-full bg-bluemmy-500 text-white font-fredoka\">Me interesa el producto!</a></div></div></div>")
+				if product.Available == false {
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<p class=\"text-red-500 font-playpen text-xl mt-4 font-bold\">Agotado</p>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<div class=\"mt-4\"><a href=\"https://wa.me/51935220199?text=Hola%2C%20quiero%20más%20información\" class=\"py-2 px-4 rounded-full bg-bluemmy-500 text-white font-fredoka\">Me interesa el producto!</a></div></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

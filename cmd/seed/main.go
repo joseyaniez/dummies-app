@@ -26,7 +26,7 @@ func main() {
 
 	adminReq := services.CreateAdminRequest{
 		Name:     "Gamer64XD",
-		Password: "STXD3t*#8484",
+		Password: "joseito99",
 	}
 
 	_, err = authService.CreateNewUser(&adminReq)
@@ -36,7 +36,7 @@ func main() {
 	log.Println("Admin ", adminReq.Name+"created sucessfully")
 
 	log.Println("Try to create 500 products with same image.")
-	for range 500 {
+	for range 0 {
 		id, err := productRepo.SaveProduct(
 			gofakeit.Name(),
 			gofakeit.Paragraph(),

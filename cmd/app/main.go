@@ -53,6 +53,7 @@ func main() {
 
 	r.Route("/admin", func(r chi.Router) {
 		r.Use(authMiddleware.Auth)
+		r.Get("/", productHandler.List)
 		r.Get("/products", productHandler.List)
 		r.Post("/products", productHandler.Create)
 		r.Get("/products/create", productHandler.New)

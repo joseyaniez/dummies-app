@@ -64,6 +64,19 @@ templ EditProductPage(prod *models.Product, productRequest services.ProductEditR
           }
         </div>
 
+        <div class="mb-6 flex flex-row gap-1 items-center justify-start">
+          <label for="#in_title" class="font-bold">Disponible: </label>
+          <input 
+            class="w-5 h-5"
+            name="available"
+            type="checkbox"
+            value="true"
+            if prod.Available {
+              checked
+            }
+          >
+        </div>
+
         <div class="mb-8 flex flex-col gap-1">
           <label for="#in_title" class="font-bold">Precio</label>
           <div class="flex flex-row gap-2 items-center">

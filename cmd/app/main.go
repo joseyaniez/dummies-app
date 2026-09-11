@@ -49,6 +49,7 @@ func main() {
 
 	r.Get("/", homeHandler.HomePage)
 	r.Get("/products", homeHandler.ProductsPage)
+	r.Get("/products/{id}", homeHandler.ProductDetailPage)
 
 	r.Route("/admin", func(r chi.Router) {
 		r.Use(authMiddleware.Auth)

@@ -12,6 +12,7 @@ type ProductCreateRequest struct {
 type ProductEditRequest struct {
 	Title           string
 	Description     string
+	Available       bool
 	Price           string
 	ImagesForDelete []string
 	Images          []*multipart.FileHeader

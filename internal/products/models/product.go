@@ -48,3 +48,34 @@ func (p *Product) ImagesMapToList() []string {
 	}
 	return imagesList
 }
+
+func (p *Product) GetOneAndOtherImages(dir string) (map[string]string, map[string]string) {
+	firstImage := make(map[string]string)
+	srcs := make(map[string]string)
+
+	isFirst := true
+	for name, sizes := range p.Images {
+		srcImage := ""
+		if len(sizes) == 3 {
+			srcImage = fmt.Sprintf("%s_%s.webp", name, sizes[1])
+		} else {
+			srcImage = fmt.Sprintf("%s_%s.webp", name, sizes[len(sizes)-1])
+		}
+
+		srcset := ""
+		for _, size := range sizes {
+			filename := fmt.Sprintf("%s_%s.webp", name, size)
+			if dir == "" {
+				srcset += fmt.Sprintf("%s %sw, ", filename, size)
+			} else {
+				srcset += fmt.Sprintf("%s/%s %sw, ", dir, filename, size)
+			}
+		}
+		srcs[srcImage] = srcset
+		if isFirst {
+			firstImage[srcImage] = srcset
+			isFirst = false
+		}
+	}
+	return firstImage, srcs
+}

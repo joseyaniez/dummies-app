@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/joseyanez/dummies-app/internal/home/views/pages"
 	"github.com/joseyanez/dummies-app/internal/products/models"
 	"github.com/joseyanez/dummies-app/internal/products/services"
@@ -38,6 +39,17 @@ func (h *HomeHandler) ProductsPage(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error obtain products: " + err.Error())
 		prods := []*models.Product{}
 		public.PublicListProductsPage(prods, page).Render(r.Context(), w)
+		return
 	}
 	public.PublicListProductsPage(products, page).Render(r.Context(), w)
+}
+
+func (h *HomeHandler) ProductDetailPage(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	product, err := h.productService.GetProduct(id)
+	if err != nil {
+		public.PublicViewProductPage(nil).Render(r.Context(), w)
+		return
+	}
+	public.PublicViewProductPage(product).Render(r.Context(), w)
 }

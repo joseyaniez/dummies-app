@@ -94,7 +94,7 @@ func (s *ProductService) EditProduct(id string, productRequest ProductEditReques
 		return validationErrors, nil
 	}
 
-	err = s.productRepository.EditProduct(id, productRequest.Title, productRequest.Description, price)
+	err = s.productRepository.EditProduct(id, productRequest.Title, productRequest.Description, productRequest.Available, price)
 	if err != nil {
 		return nil, err
 	}

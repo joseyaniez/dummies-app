@@ -114,6 +114,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 		Title:           r.FormValue("title"),
 		Description:     r.FormValue("description"),
 		Price:           r.FormValue("price"),
+		Available:       r.FormValue("available") == "true",
 		ImagesForDelete: r.Form["images_filenames"],
 		Images:          r.MultipartForm.File["files"],
 	}

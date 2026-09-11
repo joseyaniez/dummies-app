@@ -189,16 +189,17 @@ func (r *ProductRepository) DeleteProductImageFilenames(filenames []string) erro
 	return nil
 }
 
-func (r *ProductRepository) EditProduct(id, title, description string, price float64) error {
+func (r *ProductRepository) EditProduct(id, title, description string, available bool, price float64) error {
 	query := `
 	  UPDATE products
 		SET title = ?,
 		    description = ?,
+				available = ?,
 				price = ?,
 				updated_at = ?
 		WHERE id = ?
 	`
-	_, err := r.DB.Exec(query, title, description, price, time.Now(), id)
+	_, err := r.DB.Exec(query, title, description, available, price, time.Now(), id)
 	if err != nil {
 		return err
 	}

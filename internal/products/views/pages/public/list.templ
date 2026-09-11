@@ -7,17 +7,23 @@ import "fmt"
 
 templ PublicListProductsPage(products []*models.Product, page int) {
   @layout.HomeLayout("Productos") {
-    <h1 class="text-bluemmy-500 font-playpen text-3xl font-bold my-6">¡Mira los productos de hoy!</h1>
-    <div id="product-content" class="w-full grid gap-4 mb-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+    <h1 class="text-bluemmy-500 font-playpen mx-2 text-3xl font-bold my-6">¡Mira los productos de hoy!</h1>
+    <div id="product-content" class="w-full grid gap-4 mb-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
       for _, product := range products {
         {{
           prodSrcs := product.ImagesToSrcs("/static/images")
         }}
-        <div id="product-item" class="p-4 rounded-md shadow-md shadow-bluemmy-200 bg-white">
+        <div 
+          id="product-item" class="p-4 hover:bg-bluemmy-50 cursor-pointer rounded-md shadow-md shadow-bluemmy-200 bg-white"
+          hx-trigger="click"
+          hx-target="body"
+          hx-get={"/products/" + fmt.Sprintf("%s", product.Id)}
+          hx-push-url={"/products/" + fmt.Sprintf("%s", product.Id)}
+        >
           <div>
           if len(prodSrcs) > 0 {
             for src, srcset := range prodSrcs {
-              <img src={"/static/images/" + src} srcset={srcset} alt={product.Title} class="w-full sm:h-60 lg:h-80 object-cover rounded-md mb-4"/>
+              <img src={"/static/images/" + src} srcset={srcset} sizes="150px" alt={product.Title} class="w-full sm:h-60 lg:h-80 object-cover rounded-md mb-4"/>
               {{break}}
             }
           } else {
@@ -26,9 +32,8 @@ templ PublicListProductsPage(products []*models.Product, page int) {
             </div>
           }
           </div>
-          <h2 class="text-lg font-semibold mb-2">{product.Title}</h2>
-          <p class="text-gray-600 mb-2">{product.Description}</p>
-          <p class="text-gray-800 font-bold mb-2">${product.Price}</p>
+          <h2 class="text-md mb-2">{product.Title}</h2>
+          <p class="text-gray-800 text-2xl font-bold mb-2">S/.{product.Price}</p>
         </div>
       }
       <div id="button-content" class="p-4 rounded-md shadow-md shadow-bluemmy-200 bg-white flex justify-center items-center">

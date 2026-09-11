@@ -43,7 +43,7 @@ func HomePage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col-reverse sm:flex-row sm:gap-2 sm:justify-between sm:items-center\"><div class=\"flex-1 flex flex-col gap-2 items-start justify-center m-4\"><h1 class=\"text-3xl text-bluemmy-500 font-bold\">¡Los mejores diseños 3D para todos!</h1><p class=\"text-sm text-gray-400\">Encuentra aquí los maravillosos y coloridos diseños 3D de todas formas y sabores.</p><a href=\"/products\" class=\"bg-bluemmy-500 rounded-full px-4 py-2 my-2 hover:bg-bluemmy-600 text-white cursor-pointer\">Ver productos</a></div><div class=\"flex-2 object-cover sm:flex-1\"><img class=\"w-full\" src=\"/static/images/sapito2.png\" alt=\"Sapito 3D\"></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex flex-col-reverse sm:flex-row sm:gap-2 sm:justify-between sm:items-center\"><div class=\"flex-1 flex flex-col gap-2 items-start justify-center m-4\"><h1 class=\"text-3xl text-bluemmy-500 font-bold\">¡Los mejores diseños 3D para todos!</h1><p class=\"text-sm text-gray-400\">Encuentra aquí los maravillosos y coloridos diseños 3D de todas formas y sabores.</p><a href=\"/products\" class=\"bg-bluemmy-500 rounded-full px-4 py-2 my-2 hover:bg-bluemmy-600 text-white cursor-pointer\">Ver productos</a></div><div class=\"flex-2 object-cover sm:flex-1\"><img class=\"w-full\" src=\"/static/images/sapito2.webp\" alt=\"Sapito 3D\"></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

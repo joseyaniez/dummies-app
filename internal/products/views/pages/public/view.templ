@@ -11,8 +11,9 @@ templ PublicViewProductPage(product *models.Product) {
   } else {
     @layout.HomeLayout(product.Title){
       {{
-        firstImage, _ := product.GetOneAndOtherImages("/static/images")
+        firstImage, otherImages := product.GetOneAndOtherImages("/static/images")
       }}
+      <a class="block text-bluemmy-400 mx-2 font-playpen text-lg font-bold rounded-full my-4" href="/products"> -- Atrás</a>
       <div class="flex w-full flex-col lg:flex-row gap-4 mt-4 p-2">
         for name, srcset := range firstImage {
           <div class="sm:w-1/2 sm:m-auto lg:w-full lg:flex-1">
@@ -22,7 +23,6 @@ templ PublicViewProductPage(product *models.Product) {
               alt={name}
             >
           </div>
-          
         }
         <div class="lg:flex-2 flex flex-col items-start">
           <h1 class="text-bluemmy-500 font-playpen text-3xl font-bold my-4">{product.Title}</h1>
@@ -44,6 +44,24 @@ templ PublicViewProductPage(product *models.Product) {
             </a>
           </div>
         </div>
+      </div>
+      if len(otherImages) > 1 {
+        <h2 class="text-bluemmy-500 font-playpen text-xl font-bold mt-8 mb-4">Mira más imágenes aquí</h2>
+      }
+      <div class="flex flex-row gap-2 items-start flex-wrap">
+        for fname, _ := range firstImage {
+          for name, srcset := range otherImages {
+            if name != fname {
+              <div class="w-40 rounded-xl">
+                <img
+                  src={name}
+                  srcset={srcset}
+                  alt={name}
+                >
+              </div>
+            }
+          }
+        }
       </div>
     }
   }
